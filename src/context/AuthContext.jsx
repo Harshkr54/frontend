@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     }
     try {
       const res = await authApi.me();
-      setUser(res.data);
+      setUser(res);
     } catch {
       clearSession();
     } finally {
@@ -40,16 +40,16 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await authApi.login({ email, password });
-    persistTokens(res.data.accessToken, res.data.refreshToken);
-    setUser(res.data.user);
-    return res.data.user;
+    persistTokens(res.accessToken, res.refreshToken);
+    setUser(res.user);
+    return res.user;
   };
 
   const register = async (payload) => {
     const res = await authApi.register(payload);
-    persistTokens(res.data.accessToken, res.data.refreshToken);
-    setUser(res.data.user);
-    return res.data.user;
+    persistTokens(res.accessToken, res.refreshToken);
+    setUser(res.user);
+    return res.user;
   };
 
   const logout = async () => {
