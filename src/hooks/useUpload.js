@@ -28,6 +28,7 @@ export function useUpload(folderId) {
         try {
           const init = await fileApi.initUpload({
             name: file.name,
+            originalName: file.name,
             mimeType: file.type || 'application/octet-stream',
             size: file.size,
             folderId: folderId && folderId !== 'root' ? folderId : null,
