@@ -13,13 +13,16 @@ import {
   Search,
   Command,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
 import { StorageIndicator } from '../common/ui.jsx';
 import { ThemeToggle } from '../common/ThemeToggle.jsx';
 import { LogoutConfirmationModal } from '../auth/LogoutConfirmationModal.jsx';
 import { useQuery } from '@tanstack/react-query';
 import { userApi } from '../../services/publicLink.api.js';
+import { useDebounce } from '../../hooks/useDebounce.js';
+import { useSearch } from '../../hooks/useSearch.js';
+import { getFileIcon } from '../../utils/fileIcons.js';
 
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -34,17 +37,48 @@ export function AppShell({ children }) {
   const [open, setOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [q, setQ] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchRef = useRef(null);
+
+  const debouncedQ = useDebounce(q.trim(), 300);
+  const { data: searchData, isLoading: isSearching } = useSearch(
+    { q: debouncedQ, limit: 6 },
+    Boolean(debouncedQ)
+  );
+
   const navigate = useNavigate();
   const storageQuery = useQuery({
     queryKey: ['storage'],
     queryFn: () => userApi.storage().then((r) => r.data),
   });
 
+  // Handle outside click to close popover
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const onSearch = (e) => {
     e.preventDefault();
     if (!q.trim()) return;
+    setShowSuggestions(false);
     navigate(`/search?q=${encodeURIComponent(q.trim())}`);
     setOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setQ(val);
+    if (!val.trim()) {
+      setShowSuggestions(false);
+    } else {
+      setShowSuggestions(true);
+    }
   };
 
   const handleLogoutConfirm = async () => {
@@ -160,20 +194,73 @@ export function AppShell({ children }) {
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
 
-          <form onSubmit={onSearch} className="relative min-w-0 flex-1 max-w-xl">
+          <form ref={searchRef} onSubmit={onSearch} className="relative min-w-0 flex-1 max-w-xl">
             <Search
               className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               size={18}
             />
             <input
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={handleInputChange}
+              onFocus={() => {
+                if (q.trim()) setShowSuggestions(true);
+              }}
               placeholder="Search files, folders and documents..."
               className="w-full rounded-2xl border border-slate-200 bg-slate-50/80 py-2.5 pl-11 pr-12 text-xs font-medium text-slate-800 shadow-inner outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:bg-slate-800 sm:text-sm"
             />
             <div className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-500 sm:flex">
               <Command size={10} /> K
             </div>
+
+            {/* Auto-Suggestion Dropdown */}
+            {showSuggestions && q.trim().length > 0 && (
+              <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-2xl border border-slate-200 bg-white/95 p-2 shadow-2xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/95 animate-fade-up">
+                {isSearching ? (
+                  <div className="p-3 text-center text-xs font-semibold text-slate-500 dark:text-slate-400 animate-pulse">
+                    Searching...
+                  </div>
+                ) : (searchData?.items || searchData?.files || []).length === 0 ? (
+                  <div className="p-3 text-center text-xs text-slate-500 dark:text-slate-400">
+                    No files or folders found for "{q}"
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                      Suggestions
+                    </p>
+                    {(searchData?.items || searchData?.files || []).slice(0, 6).map((item) => {
+                      const isFolder = item.resourceType === 'folder';
+                      const Icon = getFileIcon(item.mimeType, isFolder);
+                      return (
+                        <button
+                          key={`${item.resourceType}-${item._id || item.id}`}
+                          type="button"
+                          onClick={() => {
+                            setShowSuggestions(false);
+                            if (isFolder) {
+                              navigate(`/drive?folder=${item._id || item.id}`);
+                            } else {
+                              navigate(`/search?q=${encodeURIComponent(item.name)}`);
+                            }
+                          }}
+                          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition hover:bg-blue-50 dark:hover:bg-slate-800 cursor-pointer"
+                        >
+                          <Icon size={18} className={isFolder ? 'text-amber-500 shrink-0' : 'text-blue-600 shrink-0'} />
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+                              {item.name}
+                            </p>
+                            <p className="truncate text-[10px] text-slate-400 dark:text-slate-500">
+                              {isFolder ? 'Folder' : item.mimeType || 'File'}
+                            </p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
           </form>
 
           <ThemeToggle className="ml-auto shrink-0" />

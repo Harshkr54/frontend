@@ -14,7 +14,7 @@ export const publicLinkApi = {
 };
 
 export const searchApi = {
-  search: (params) => api.get('/search', { params }).then((r) => r.data),
+  search: (params) => api.get('/search', { params }).then((r) => r?.data || r),
 };
 
 export const starApi = {
