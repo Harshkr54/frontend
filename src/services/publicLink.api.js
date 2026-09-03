@@ -31,8 +31,8 @@ export const trashApi = {
 };
 
 export const activityApi = {
-  dashboard: () => api.get('/activities/dashboard').then((r) => r.data),
-  list: (params) => api.get('/activities', { params }).then((r) => r.data),
+  dashboard: () => api.get('/activities/dashboard').then((r) => r?.data || r),
+  list: (params) => api.get('/activities', { params }).then((r) => r?.data || r),
 };
 
 export const userApi = {
