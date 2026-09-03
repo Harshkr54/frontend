@@ -29,6 +29,28 @@ export function isImageFile(mimeType = '') {
 export async function loadPreviewObjectUrl(file, downloadUrl) {
   if (!downloadUrl) throw new Error('Preview URL is missing');
 
+  // Handle direct HTTP/HTTPS presigned S3 URLs
+  if (downloadUrl.startsWith('http://') || downloadUrl.startsWith('https://')) {
+    try {
+      const response = await fetch(downloadUrl);
+      if (response.ok) {
+        const buffer = await response.arrayBuffer();
+        const headerType = response.headers.get('Content-Type')?.split(';')[0]?.trim();
+        const contentType =
+          file?.mimeType ||
+          headerType ||
+          guessMimeFromName(file?.name) ||
+          'application/octet-stream';
+
+        const blob = new Blob([buffer], { type: contentType });
+        return URL.createObjectURL(blob);
+      }
+    } catch (err) {
+      console.warn('Direct fetch of presigned URL failed (likely S3 CORS). Falling back to direct presigned URL:', err);
+    }
+    return downloadUrl;
+  }
+
   const token = localStorage.getItem('accessToken');
   let fetchUrl = downloadUrl;
 
