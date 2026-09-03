@@ -54,8 +54,10 @@ export default function Trash() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {items.map((item) => (
-                <tr key={`${item.type}-${item.id}`} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
+              {items.map((item, idx) => {
+                const itemId = item.id || item._id || idx;
+                return (
+                  <tr key={`${item.type}-${itemId}`} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
                   <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">{item.name}</td>
                   <td className="px-4 py-3 capitalize text-slate-500 dark:text-slate-400">{item.type}</td>
                   <td className="px-4 py-3 text-slate-400 dark:text-slate-500">{formatDate(item.deletedAt)}</td>
@@ -78,7 +80,8 @@ export default function Trash() {
                     </div>
                   </td>
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </div>

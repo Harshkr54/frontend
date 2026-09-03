@@ -34,6 +34,7 @@ import { useTagResources } from '../hooks/useTags.js';
 import { fileApi } from '../services/file.api.js';
 import { starApi } from '../services/publicLink.api.js';
 import { loadPreviewObjectUrl, revokePreviewObjectUrl } from '../utils/filePreview.js';
+import { formatFileSize } from '../utils/formatFileSize.js';
 
 const FILTERS = [
   { id: 'all', label: 'All Files', icon: Sparkles },

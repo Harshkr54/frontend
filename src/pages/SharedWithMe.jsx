@@ -7,12 +7,12 @@ import { getFileIcon } from '../utils/fileIcons.js';
 export default function SharedWithMe() {
   const { data, isLoading } = useQuery({
     queryKey: ['shared-with-me'],
-    queryFn: () => shareApi.sharedWithMe().then((r) => r.data),
+    queryFn: () => shareApi.sharedWithMe(),
   });
 
   if (isLoading) return <LoadingSpinner label="Loading shared items..." />;
 
-  const items = data || [];
+  const items = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : (Array.isArray(data?.shares) ? data.shares : []));
 
   return (
     <div className="space-y-4">
@@ -31,12 +31,12 @@ export default function SharedWithMe() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {items.map((share) => {
+              {items.map((share, idx) => {
                 const item = share.file || share.folder;
                 const isFolder = Boolean(share.folder);
                 const Icon = getFileIcon(item?.mimeType, isFolder);
                 return (
-                  <tr key={share._id} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
+                  <tr key={share.id || share._id || idx} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
                     <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">
                       <div className="flex items-center gap-2.5">
                         <Icon size={18} className={isFolder ? 'text-amber-500' : 'text-blue-600 dark:text-blue-400'} />

@@ -25,7 +25,7 @@ export default function Starred() {
   });
 
   if (isLoading) return <LoadingSpinner label="Loading starred..." />;
-  const items = data || [];
+  const items = Array.isArray(data) ? data : (Array.isArray(data?.data) ? data.data : []);
 
   return (
     <div className="space-y-4">
@@ -34,12 +34,12 @@ export default function Starred() {
         <EmptyState title="No starred files" description="Star files and folders to find them quickly." />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((star) => {
+          {items.map((star, idx) => {
             const item = star.file || star.folder;
             const isFolder = Boolean(star.folder);
             const Icon = getFileIcon(item?.mimeType, isFolder);
             return (
-              <div key={star._id} className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition hover:border-blue-400 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+              <div key={star.id || star._id || idx} className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition hover:border-blue-400 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                 <div className="mb-3 flex items-start justify-between">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
                     <Icon size={22} className={isFolder ? 'text-amber-500' : 'text-blue-600 dark:text-blue-400'} />
@@ -47,7 +47,7 @@ export default function Starred() {
                   <button
                     type="button"
                     onClick={() =>
-                      unstar.mutate(isFolder ? { folderId: item._id } : { fileId: item._id })
+                      unstar.mutate(isFolder ? { folderId: item?.id || item?._id } : { fileId: item?.id || item?._id })
                     }
                     className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-amber-500 dark:hover:bg-slate-800 cursor-pointer"
                     title="Remove from Starred"
