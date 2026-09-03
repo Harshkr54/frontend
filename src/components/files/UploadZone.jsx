@@ -110,6 +110,7 @@ export function UploadProgress({ uploads, onCancel, onClear }) {
 
   const total = uploads.length;
   const active = uploads.filter((u) => u.status === 'uploading').length;
+  const hasError = uploads.some((u) => u.status === 'error');
 
   return (
     <div className="fixed bottom-5 right-5 z-40 w-[min(calc(100vw-2.5rem),24rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl ring-1 ring-slate-900/5 animate-fade-up dark:border-slate-700 dark:bg-slate-900/95 dark:ring-slate-700/50">
@@ -117,11 +118,13 @@ export function UploadProgress({ uploads, onCancel, onClear }) {
         <div className="flex items-center gap-2">
           {active > 0 ? (
             <Loader2 size={16} className="animate-spin text-blue-600 dark:text-blue-400" />
+          ) : hasError ? (
+            <AlertCircle size={16} className="text-red-500" />
           ) : (
             <CheckCircle size={16} className="text-emerald-500" />
           )}
           <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
-            {active > 0 ? `Uploading (${active}/${total})` : 'Uploads Complete'}
+            {active > 0 ? `Uploading (${active}/${total})` : hasError ? 'Upload Failed' : 'Uploads Complete'}
           </span>
         </div>
         <button

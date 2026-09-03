@@ -34,7 +34,7 @@ export function useUpload(folderId) {
             folderId: folderId && folderId !== 'root' ? folderId : null,
           });
 
-          const payload = init.data;
+          const payload = init;
 
           if (payload.provider === 'local') {
             await fileApi.localUpload(
