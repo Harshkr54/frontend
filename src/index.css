@@ -4,32 +4,31 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #0f172a;
-  --color-ink-muted: #64748b;
-  --color-surface: #f8fafc;
+  --font-sans: "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #111827;
+  --color-ink-muted: #6b7280;
+  --color-surface: #f7f8fa;
   --color-panel: #ffffff;
-  --color-line: #e2e8f0;
-  --color-accent: #3b82f6;
-  --color-accent-dark: #2563eb;
-  --color-accent-soft: #eff6ff;
-  --color-danger: #ef4444;
-  --color-warn: #f59e0b;
-  --color-sky-deep: #0f172a;
+  --color-line: #e5e7eb;
+  --color-accent: #3157d5;
+  --color-accent-dark: #2649bd;
+  --color-accent-soft: #eef3ff;
+  --color-danger: #dc2626;
+  --color-warn: #d97706;
+  --color-[#3157d5]: #3157d5;
 }
 
 .dark {
   color-scheme: dark;
-  --color-ink: #f8fafc;
-  --color-ink-muted: #94a3b8;
-  --color-surface: #090d16;
-  --color-panel: #0f172a;
-  --color-line: #1e293b;
-  --color-accent: #3b82f6;
-  --color-accent-dark: #60a5fa;
-  --color-accent-soft: #1e3a8a;
-  --color-sky-deep: #020617;
+  --color-ink: #f9fafb;
+  --color-ink-muted: #9ca3af;
+  --color-surface: #0b0f17;
+  --color-panel: #111827;
+  --color-line: #253044;
+  --color-accent: #5b7cff;
+  --color-accent-dark: #3b82f6;
+  --color-accent-soft: #1e293b;
 }
 
 * {
@@ -47,15 +46,15 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   color: var(--color-ink);
-  background: #f8fafc;
+  background: #f7f8fa;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .dark body {
-  background: #090d16;
+  background: #0b0f17;
 }
 
 button,

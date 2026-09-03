@@ -97,18 +97,18 @@ export function AppShell({ children }) {
   const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
 
   const Sidebar = (
-    <aside className="flex h-full w-64 flex-col bg-[#2563eb] text-white shadow-lg transition-colors duration-200 dark:bg-[#1e3a8a]">
+    <aside className="flex h-full w-60 flex-col border-r border-[#e5e7eb] bg-white text-[#111827] transition-colors duration-150 dark:border-[#253044] dark:bg-[#111827] dark:text-[#f9fafb]">
       {/* Brand Header */}
-      <div className="flex shrink-0 items-center gap-3 px-6 pt-6 pb-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/20 text-white shadow-xs backdrop-blur-md">
-          <Cloud size={22} strokeWidth={2.5} />
+      <div className="flex shrink-0 items-center gap-2.5 px-5 pt-5 pb-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3157d5] text-white shadow-xs">
+          <Cloud size={20} strokeWidth={2.25} />
         </div>
         <div>
-          <p className="font-[family-name:var(--font-display)] text-xl font-extrabold tracking-tight text-white">
+          <p className="font-[family-name:var(--font-display)] text-lg font-bold tracking-tight text-[#111827] dark:text-white">
             Storvix
           </p>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
-            Cloud Drive
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#9ca3af]">
+            Cloud Storage
           </p>
         </div>
       </div>
@@ -121,34 +121,34 @@ export function AppShell({ children }) {
             navigate('/drive?upload=1');
             setOpen(false);
           }}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-white py-3 px-4 text-xs font-bold text-blue-600 shadow-md transition-all hover:bg-blue-50 hover:shadow-lg active:scale-98 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#3157d5] py-2.5 px-4 text-xs font-semibold text-white shadow-xs transition hover:bg-[#2649bd] active:scale-98 cursor-pointer"
         >
-          <span className="text-base leading-none font-extrabold">+</span>
+          <span className="text-sm leading-none font-extrabold">+</span>
           <span>Upload New Files</span>
         </button>
       </div>
 
       {/* Sidebar Navigation */}
-      <nav className="flex-1 space-y-1 px-3 py-3 overflow-y-auto custom-scrollbar">
+      <nav className="flex-1 space-y-0.5 px-3 py-2 overflow-y-auto custom-scrollbar">
         {links.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all ${
+              `group flex items-center gap-3 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
                 isActive
-                  ? 'bg-white/20 text-white font-bold shadow-xs backdrop-blur-xs'
-                  : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                  ? 'bg-[#eef3ff] text-[#3157d5] font-semibold dark:bg-[#1e293b] dark:text-[#5b7cff]'
+                  : 'text-[#6b7280] hover:bg-[#f9fafb] hover:text-[#111827] dark:text-[#9ca3af] dark:hover:bg-[#151c29] dark:hover:text-[#f9fafb]'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <Icon
-                  size={18}
+                  size={17}
                   className={
-                    isActive ? 'text-white' : 'text-blue-200 group-hover:text-white'
+                    isActive ? 'text-[#3157d5] dark:text-[#5b7cff]' : 'text-[#6b7280] group-hover:text-[#111827] dark:text-[#9ca3af] dark:group-hover:text-white'
                   }
                 />
                 <span>{label}</span>
@@ -159,27 +159,27 @@ export function AppShell({ children }) {
 
         {/* User Tags Section */}
         {userTags.length > 0 && (
-          <div className="pt-4 space-y-1">
-            <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-200/80">
+          <div className="pt-4 space-y-0.5">
+            <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#9ca3af] dark:text-[#6b7280]">
               Tags
             </p>
             {userTags.map((tag) => {
               const tagId = tag._id || tag.id;
-              const color = tag.colorHex || '#3B82F6';
+              const color = tag.colorHex || '#3157D5';
               return (
                 <NavLink
                   key={tagId}
                   to={`/drive?tag=${tagId}`}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `group flex items-center gap-2.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all ${
+                    `group flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                       isActive
-                        ? 'bg-white/20 text-white font-bold'
-                        : 'text-blue-100 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#eef3ff] text-[#3157d5] font-semibold dark:bg-[#1e293b] dark:text-[#5b7cff]'
+                        : 'text-[#6b7280] hover:bg-[#f9fafb] hover:text-[#111827] dark:text-[#9ca3af] dark:hover:bg-[#151c29] dark:hover:text-[#f9fafb]'
                     }`
                   }
                 >
-                  <span className="h-2 w-2 rounded-full shrink-0 ring-2 ring-white/30" style={{ backgroundColor: color }} />
+                  <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
                   <span className="truncate">{tag.name}</span>
                 </NavLink>
               );
@@ -189,12 +189,12 @@ export function AppShell({ children }) {
       </nav>
 
       {/* Storage & Profile Footer */}
-      <div className="mt-auto space-y-3 border-t border-white/15 p-4">
+      <div className="mt-auto space-y-3 border-t border-[#e5e7eb] p-3.5 dark:border-[#253044]">
         {storageQuery.data && (
-          <div className="rounded-2xl bg-white/10 p-3 backdrop-blur-xs space-y-2">
-            <div className="flex items-center justify-between text-xs text-white font-semibold">
-              <span className="flex items-center gap-1.5">
-                <HardDrive size={14} className="text-blue-200" /> Storage
+          <div className="rounded-xl border border-[#e5e7eb] bg-[#f7f8fa] p-3 space-y-2 dark:border-[#253044] dark:bg-[#0b0f17]">
+            <div className="flex items-center justify-between text-xs text-[#111827] font-semibold dark:text-[#f9fafb]">
+              <span className="flex items-center gap-1.5 text-xs">
+                <HardDrive size={13} className="text-[#3157d5] dark:text-[#5b7cff]" /> Storage
               </span>
               <button
                 type="button"
@@ -202,7 +202,7 @@ export function AppShell({ children }) {
                   navigate('/pricing');
                   setOpen(false);
                 }}
-                className="text-[10px] font-bold text-blue-200 hover:text-white underline cursor-pointer"
+                className="text-[10px] font-bold text-[#3157d5] hover:underline cursor-pointer dark:text-[#5b7cff]"
               >
                 Upgrade
               </button>
@@ -211,31 +211,31 @@ export function AppShell({ children }) {
           </div>
         )}
 
-        <div className="flex items-center justify-between gap-2 pt-1">
+        <div className="flex items-center justify-between gap-2 pt-0.5">
           <button
             type="button"
             onClick={() => {
               navigate('/profile');
               setOpen(false);
             }}
-            className="flex items-center gap-2.5 min-w-0 flex-1 rounded-xl p-1.5 text-left transition hover:bg-white/10"
+            className="flex items-center gap-2.5 min-w-0 flex-1 rounded-lg p-1.5 text-left transition hover:bg-[#f9fafb] dark:hover:bg-[#151c29]"
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-blue-600 font-bold text-xs shadow-xs">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#3157d5] text-white font-bold text-xs">
               {userInitial}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-white">{user?.name || 'User'}</p>
-              <p className="truncate text-[10px] text-blue-200">{user?.email}</p>
+              <p className="truncate text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">{user?.name || 'User'}</p>
+              <p className="truncate text-[10px] text-[#6b7280] dark:text-[#9ca3af]">{user?.email}</p>
             </div>
           </button>
 
           <button
             type="button"
             onClick={() => setLogoutOpen(true)}
-            className="rounded-xl p-2 text-blue-200 hover:bg-white/10 hover:text-white transition cursor-pointer"
+            className="rounded-lg p-1.5 text-[#6b7280] hover:bg-[#f9fafb] hover:text-[#dc2626] transition cursor-pointer dark:text-[#9ca3af] dark:hover:bg-[#151c29]"
             title="Logout"
           >
-            <LogOut size={16} />
+            <LogOut size={15} />
           </button>
         </div>
       </div>
@@ -243,38 +243,38 @@ export function AppShell({ children }) {
   );
 
   return (
-    <div className="flex h-dvh w-screen overflow-hidden bg-[#2567d6] dark:bg-slate-950 p-0 md:p-4 lg:p-6 transition-colors duration-300">
-      {/* Floating Desktop Shell Container */}
-      <div className="flex h-full w-full max-w-[1550px] mx-auto overflow-hidden rounded-none md:rounded-[32px] bg-white dark:bg-slate-900 shadow-2xl border border-blue-400/20">
+    <div className="flex h-dvh w-screen overflow-hidden bg-[#f7f8fa] dark:bg-[#0b0f17] transition-colors duration-150">
+      {/* Shell Container */}
+      <div className="flex h-full w-full overflow-hidden bg-white dark:bg-[#0b0f17]">
         <div className="hidden h-full shrink-0 md:block">{Sidebar}</div>
 
         {open && (
           <div className="fixed inset-0 z-50 flex animate-fade-up md:hidden">
             <button
               type="button"
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs"
               onClick={() => setOpen(false)}
             />
             <div className="relative z-10 h-full">{Sidebar}</div>
           </div>
         )}
 
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white dark:bg-slate-900">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#f7f8fa] dark:bg-[#0b0f17]">
           {/* Header */}
-          <header className="z-30 flex shrink-0 items-center gap-3 border-b border-slate-100 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 sm:px-6">
+          <header className="z-30 flex shrink-0 items-center gap-3 border-b border-[#e5e7eb] bg-white px-4 py-2.5 dark:border-[#253044] dark:bg-[#111827] sm:px-6">
             <button
               type="button"
-              className="rounded-xl p-2 text-slate-600 hover:bg-slate-100 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+              className="rounded-lg p-1.5 text-[#6b7280] hover:bg-[#f9fafb] md:hidden dark:text-[#9ca3af] dark:hover:bg-[#151c29]"
               onClick={() => setOpen(true)}
             >
-              {open ? <X size={20} /> : <Menu size={20} />}
+              {open ? <X size={18} /> : <Menu size={18} />}
             </button>
 
-            {/* Search Input */}
-            <form ref={searchRef} onSubmit={onSearch} className="relative min-w-0 flex-1 max-w-xl">
+            {/* High-Contrast Search Input */}
+            <form ref={searchRef} onSubmit={onSearch} className="relative min-w-0 flex-1 max-w-lg">
               <Search
-                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
-                size={16}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] dark:text-[#6b7280]"
+                size={15}
               />
               <input
                 value={q}
@@ -283,27 +283,27 @@ export function AppShell({ children }) {
                   if (q.trim()) setShowSuggestions(true);
                 }}
                 placeholder="Search files, folders and documents..."
-                className="w-full rounded-full border border-slate-200 bg-[#f5f7fb] py-2 pl-11 pr-12 text-xs font-medium text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 sm:text-sm"
+                className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] py-2 pl-10 pr-10 text-xs font-semibold text-[#111827] outline-none transition placeholder:text-[#9ca3af] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:placeholder:text-[#6b7280] dark:focus:border-[#5b7cff] sm:text-sm"
               />
-              <div className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-bold text-slate-400 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 sm:flex">
+              <div className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded border border-[#e5e7eb] bg-white px-1.5 py-0.5 text-[10px] font-semibold text-[#9ca3af] dark:border-[#253044] dark:bg-[#111827] dark:text-[#6b7280] sm:flex">
                 <Command size={10} /> K
               </div>
 
-              {/* Auto-Suggestion Dropdown */}
+              {/* High-Contrast Auto-Suggestion Dropdown */}
               {showSuggestions && q.trim().length > 0 && (
-                <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl dark:border-slate-700 dark:bg-slate-900 animate-fade-up">
+                <div className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-80 overflow-y-auto rounded-xl border border-[#e5e7eb] bg-white p-1.5 shadow-xl dark:border-[#253044] dark:bg-[#111827] animate-scale-up">
                   {isSearching ? (
-                    <div className="p-3 text-center text-xs font-semibold text-slate-500 dark:text-slate-400 animate-pulse">
+                    <div className="p-3 text-center text-xs font-medium text-[#6b7280] dark:text-[#9ca3af] animate-pulse">
                       Searching...
                     </div>
                   ) : (searchData?.items || searchData?.files || []).length === 0 ? (
-                    <div className="p-3 text-center text-xs text-slate-500 dark:text-slate-400">
+                    <div className="p-3 text-center text-xs text-[#6b7280] dark:text-[#9ca3af]">
                       No files or folders found for "{q}"
                     </div>
                   ) : (
-                    <div className="space-y-1">
-                      <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                        Suggestions
+                    <div className="space-y-0.5">
+                      <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#9ca3af] dark:text-[#6b7280]">
+                        Search Suggestions
                       </p>
                       {(searchData?.items || searchData?.files || []).slice(0, 6).map((item) => {
                         const isFolder = item.resourceType === 'folder';
@@ -320,14 +320,14 @@ export function AppShell({ children }) {
                                 navigate(`/search?q=${encodeURIComponent(item.name)}`);
                               }
                             }}
-                            className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition hover:bg-blue-50 dark:hover:bg-slate-800 cursor-pointer"
+                            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition hover:bg-[#f7f8fa] dark:hover:bg-[#151c29] cursor-pointer"
                           >
-                            <Icon size={18} className={isFolder ? 'text-amber-500 shrink-0' : 'text-blue-600 shrink-0'} />
+                            <Icon size={16} className={isFolder ? 'text-amber-500 shrink-0' : 'text-[#3157d5] dark:text-[#5b7cff] shrink-0'} />
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+                              <p className="truncate text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">
                                 {item.name}
                               </p>
-                              <p className="truncate text-[10px] text-slate-400 dark:text-slate-500">
+                              <p className="truncate text-[10px] text-[#6b7280] dark:text-[#9ca3af]">
                                 {isFolder ? 'Folder' : item.mimeType || 'File'}
                               </p>
                             </div>
@@ -343,7 +343,7 @@ export function AppShell({ children }) {
             <ThemeToggle className="ml-auto shrink-0" />
           </header>
 
-          <main className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-white p-4 transition-colors duration-300 dark:bg-slate-900 sm:p-6 lg:p-8">
+          <main className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-[#f7f8fa] p-4 transition-colors duration-150 dark:bg-[#0b0f17] sm:p-6 lg:p-7">
             {children}
           </main>
         </div>

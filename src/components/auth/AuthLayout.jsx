@@ -2,128 +2,83 @@ import { Cloud } from 'lucide-react';
 
 function BrandMark({ light = false }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#3b82f6] text-white shadow-sm">
-        <Cloud className="h-6 w-6" strokeWidth={2.25} />
-        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[10px] font-bold text-white">
-          ↑
-        </span>
+    <div className="flex items-center gap-2.5">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#3157d5] text-white shadow-xs">
+        <Cloud className="h-5 w-5" strokeWidth={2.25} />
       </div>
-      <div className="font-[family-name:var(--font-display)] text-2xl font-bold leading-none tracking-tight sm:text-[1.75rem]">
-        <span className={light ? 'text-white' : 'text-[#3b82f6]'}>Strovix</span>{' '}
-        <span className={light ? 'text-[#bbf7d0]' : 'text-[#22c55e]'}>Drive</span>
+      <div className="font-[family-name:var(--font-display)] text-xl font-bold leading-none tracking-tight">
+        <span className={light ? 'text-white' : 'text-[#111827] dark:text-white'}>Storvix</span>{' '}
+        <span className="text-[#3157d5] dark:text-[#5b7cff]">Drive</span>
       </div>
     </div>
   );
 }
 
-/**
- * @param {boolean} [compactOnMobile] Hide left panel on mobile; logo top-left + form only
- */
 export default function AuthLayout({ title, subtitle, children, footerLink, compactOnMobile = false }) {
-  const mobileSafe = compactOnMobile
-    ? {
-        paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0px))',
-        paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0px))',
-        paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
-        paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
-      }
-    : undefined;
-
   return (
-    <div
-      className={
-        compactOnMobile
-          ? 'flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden bg-[#2563eb] lg:h-full lg:max-h-none lg:min-h-0 lg:flex-row lg:overflow-y-auto lg:bg-white'
-          : 'flex h-full min-h-0 flex-col overflow-y-auto overflow-x-hidden bg-white lg:flex-row'
-      }
-    >
-      {/* Left panel — desktop/tablet only when compactOnMobile */}
-      <section
-        className={
-          compactOnMobile
-            ? 'hidden flex-col justify-between px-8 py-10 sm:px-12 lg:flex lg:flex-1 lg:px-16 lg:py-14 xl:px-20'
-            : 'flex flex-1 flex-col justify-between px-8 py-10 sm:px-12 lg:px-16 lg:py-14 xl:px-20'
-        }
-      >
-        <div>
-          <BrandMark />
+    <div className="flex min-h-dvh w-full overflow-y-auto bg-[#f7f8fa] dark:bg-[#0b0f17] transition-colors duration-150">
+      <div className="flex w-full flex-col lg:flex-row">
+        {/* Left Branding Panel */}
+        <section className="hidden flex-1 flex-col justify-between border-r border-[#e5e7eb] bg-white p-12 dark:border-[#253044] dark:bg-[#111827] lg:flex xl:p-16">
+          <div>
+            <BrandMark />
 
-          <h2 className="mt-10 font-[family-name:var(--font-display)] text-2xl font-bold text-slate-800 sm:text-[1.75rem]">
-            Cloud Storage & Sharing —
-          </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-slate-500">
-            From uploads to secure sharing, our platform helps teams store files
-            smarter, faster, and more securely. Trusted by growing teams for
-            seamless cloud file management.
-          </p>
+            <h2 className="mt-12 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[#111827] dark:text-[#f9fafb]">
+              Cloud Storage & Workspace —
+            </h2>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+              Store, share, and collaborate on your files with end-to-end security, lightning-fast S3 direct uploads, and AI-powered file intelligence.
+            </p>
 
-          <div className="mt-12 grid max-w-lg grid-cols-3 gap-6">
-            {[
-              { value: '10GB+', label: 'Free storage' },
-              { value: 'Fast', label: 'Signed uploads' },
-              { value: '99.9%', label: 'Uptime' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#2563eb] sm:text-3xl">
-                  {stat.value}
+            <div className="mt-12 grid grid-cols-3 gap-6 border-t border-[#e5e7eb] pt-8 dark:border-[#253044]">
+              <div>
+                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#3157d5] dark:text-[#5b7cff]">
+                  5 GB
                 </p>
-                <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
+                <p className="mt-1 text-xs text-[#6b7280] dark:text-[#9ca3af]">Free Storage</p>
               </div>
-            ))}
+              <div>
+                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#3157d5] dark:text-[#5b7cff]">
+                  Fast
+                </p>
+                <p className="mt-1 text-xs text-[#6b7280] dark:text-[#9ca3af]">S3 Direct Uploads</p>
+              </div>
+              <div>
+                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#3157d5] dark:text-[#5b7cff]">
+                  99.9%
+                </p>
+                <p className="mt-1 text-xs text-[#6b7280] dark:text-[#9ca3af]">Reliability</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <p
-          className="mt-14 text-2xl text-[#2563eb] sm:text-3xl"
-          style={{ fontFamily: '"Caveat", cursive' }}
-        >
-          Your Files, Our Responsibility
-        </p>
-      </section>
+          <p className="text-xs text-[#9ca3af] dark:text-[#6b7280]">
+            © 2026 Storvix Cloud Storage. All rights reserved.
+          </p>
+        </section>
 
-      {/* Form panel */}
-      <section
-        className={
-          compactOnMobile
-            ? 'relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#2563eb] text-white lg:justify-center lg:overflow-visible lg:px-16 lg:py-14 xl:px-20'
-            : 'relative flex flex-1 flex-col justify-center bg-[#2563eb] px-8 py-12 text-white sm:px-12 lg:px-16 xl:px-20'
-        }
-        style={compactOnMobile ? mobileSafe : undefined}
-      >
-        {compactOnMobile ? (
-          <header className="mb-3 shrink-0 lg:hidden">
-            <BrandMark light />
-          </header>
-        ) : null}
+        {/* Right Form Panel */}
+        <section className="flex flex-1 flex-col justify-center px-4 py-8 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mx-auto w-full max-w-md space-y-6">
+            <div className="lg:hidden mb-6">
+              <BrandMark />
+            </div>
 
-        <div
-          className={
-            compactOnMobile
-              ? 'auth-mobile-scroll mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col lg:overflow-visible'
-              : 'mx-auto w-full max-w-md'
-          }
-        >
-          <div className={compactOnMobile ? 'flex flex-col py-1 lg:py-0' : undefined}>
-            <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-              {title}
-            </h1>
-            <p className="mt-1.5 text-sm text-white/85 sm:text-base">{subtitle}</p>
-            <div className="mt-5 sm:mt-8 lg:mt-10">{children}</div>
-            {footerLink ? <div className="mt-4 sm:mt-6">{footerLink}</div> : null}
+            <div>
+              <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-[#111827] dark:text-[#f9fafb] sm:text-3xl">
+                {title}
+              </h1>
+              <p className="mt-1.5 text-xs text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">{subtitle}</p>
+            </div>
+
+            <div className="rounded-xl border border-[#e5e7eb] bg-white p-6 shadow-xs dark:border-[#253044] dark:bg-[#111827] sm:p-8 space-y-4">
+              {children}
+            </div>
+
+            {footerLink && <div className="text-center text-xs text-[#6b7280] dark:text-[#9ca3af]">{footerLink}</div>}
           </div>
-        </div>
-
-        {compactOnMobile ? (
-          <p className="mt-2 shrink-0 text-center text-[10px] text-white/60 lg:hidden">
-            © 2026 Strovix Cloud. All rights reserved.
-          </p>
-        ) : (
-          <p className="mt-12 text-center text-xs text-white/70 lg:absolute lg:bottom-8 lg:left-0 lg:right-0">
-            © 2026 Strovix Cloud. All rights reserved.
-          </p>
-        )}
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
@@ -142,7 +97,7 @@ export function AuthField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-white">{label}</label>
+      <label className="mb-1.5 block text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">{label}</label>
       <div className="relative">
         <input
           type={type}
@@ -152,15 +107,15 @@ export function AuthField({
           onChange={onChange}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`w-full rounded-xl border-0 bg-white/90 px-4 py-3.5 text-slate-800 outline-none placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-white/60 ${
-            rightSlot ? 'pr-12' : ''
-          } ${readOnly ? 'opacity-90' : ''} ${error ? 'ring-2 ring-red-400 bg-red-50/90' : ''}`}
+          className={`w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2.5 text-xs font-medium text-[#111827] outline-none transition placeholder:text-[#9ca3af] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:placeholder:text-[#6b7280] dark:focus:border-[#5b7cff] sm:text-sm ${
+            rightSlot ? 'pr-11' : ''
+          } ${error ? 'border-[#dc2626] dark:border-[#dc2626]' : ''}`}
         />
         {rightSlot ? (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3">{rightSlot}</div>
         ) : null}
       </div>
-      {error ? <p className="mt-1 text-xs font-semibold text-red-200">{error}</p> : null}
+      {error ? <p className="mt-1 text-xs font-semibold text-[#dc2626] dark:text-red-400">{error}</p> : null}
     </div>
   );
 }
@@ -170,7 +125,7 @@ export function AuthPrimaryButton({ children, disabled, type = 'submit' }) {
     <button
       type={type}
       disabled={disabled}
-      className="w-full rounded-full bg-white py-3.5 text-sm font-bold text-[#2563eb] shadow-md transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+      className="w-full rounded-lg bg-[#3157d5] py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#2649bd] active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer sm:text-sm"
     >
       {children}
     </button>

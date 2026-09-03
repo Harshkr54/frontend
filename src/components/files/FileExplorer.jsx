@@ -176,34 +176,77 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
             <Icon size={16} />
           </div>
           <div className="min-w-0 flex-1">
-            {!isFolder && (
-              <button
-                type="button"
-                onClick={() => onAi?.(item)}
-                className="rounded-lg p-1.5 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/60 font-bold flex items-center gap-1 cursor-pointer"
-                title="AI Assistant"
-              >
-                <Sparkles size={15} />
-              </button>
+            <p className="truncate font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+              {item.name}
+            </p>
+            {/* Render Tag Chips */}
+            {(item.tags || []).length > 0 && (
+              <div className="mt-0.5 flex items-center gap-1 flex-wrap">
+                {item.tags.map((t) => (
+                  <TagBadge key={t._id || t.id} tag={t} />
+                ))}
+              </div>
             )}
-            <div className="flex items-center gap-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition">
+          </div>
+        </div>
+
+        {/* Owner / Sharing Column */}
+        <div className="hidden w-36 text-xs text-slate-500 dark:text-slate-400 md:block truncate">
+          {item.sharedWith?.length > 0 ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+              Shared
+            </span>
+          ) : (
+            <span>You</span>
+          )}
+        </div>
+
+        <div className="hidden w-24 text-right text-slate-500 dark:text-slate-400 sm:block">
+          {isFolder ? '—' : formatFileSize(item.size)}
+        </div>
+        <div className="hidden w-32 text-right text-slate-400 dark:text-slate-500 md:block">
+          {formatDate(item.updatedAt)}
+        </div>
+
+        <div className="flex w-32 items-center justify-end gap-1 pl-2">
+          {!isFolder && (
+            <button
+              type="button"
+              onClick={() => onPreview?.(item)}
+              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
+              title="Preview"
+            >
+              <Eye size={15} />
+            </button>
+          )}
+          {!isFolder && (
+            <button
+              type="button"
+              onClick={() => onAi?.(item)}
+              className="rounded-lg p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/60 font-bold flex items-center gap-1 cursor-pointer"
+              title="AI Assistant"
+            >
+              <Sparkles size={14} />
+            </button>
+          )}
+          <div className="flex items-center gap-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition">
             {!isFolder && (
               <button
                 type="button"
                 onClick={() => onDownload?.(item)}
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
+                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
                 title="Download"
               >
-                <Download size={16} />
+                <Download size={15} />
               </button>
             )}
             <button
               type="button"
               onClick={() => onStar?.(item, type)}
-              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-amber-500 cursor-pointer"
+              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-amber-500 cursor-pointer"
               title="Star"
             >
-              <Star size={16} className={isStarred ? 'fill-amber-400 text-amber-400' : ''} />
+              <Star size={15} className={isStarred ? 'fill-amber-400 text-amber-400' : ''} />
             </button>
             <div className="relative">
               <button
@@ -212,12 +255,11 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
                   e.stopPropagation();
                   setMenu((v) => !v);
                 }}
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
+                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
               >
-                <MoreVertical size={16} />
+                <MoreVertical size={15} />
               </button>
               <ContextMenu open={menu} onClose={() => setMenu(false)} actions={actions} />
-            </div>
             </div>
           </div>
         </div>

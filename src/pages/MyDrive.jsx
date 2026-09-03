@@ -25,7 +25,7 @@ import { ShareModal } from '../components/sharing/ShareModal.jsx';
 import { FilePreviewModal } from '../components/files/FilePreviewModal.jsx';
 import { VersionHistoryModal } from '../components/files/VersionHistoryModal.jsx';
 import { ManageTagsModal } from '../components/tags/ManageTagsModal.jsx';
-import { ConfirmModal, EmptyState, SkeletonGrid } from '../components/common/ui.jsx';
+import { ConfirmModal, EmptyState, SkeletonGrid, Modal } from '../components/common/ui.jsx';
 import { useFolderContents, useCreateFolder, useRenameFolder, useDeleteFolder } from '../hooks/useFolders.js';
 import { useDeleteFile, useDownloadFile, useRenameFile } from '../hooks/useFiles.js';
 import { useUpload } from '../hooks/useUpload.js';
@@ -119,9 +119,14 @@ export default function MyDrive() {
     }
   };
 
-  const rawFolders = tagIdParam ? (tagResources.data?.folders || []) : (contents.data?.folders || []);
-  const rawFiles = tagIdParam ? (tagResources.data?.files || []) : (contents.data?.files || []);
-  const activeTagName = tagResources.data?.tag?.name;
+  const contentsPayload = contents.data?.data || contents.data;
+  const rawFolders = tagIdParam
+    ? (tagResources.data?.folders || tagResources.data?.data?.folders || [])
+    : (Array.isArray(contentsPayload?.folders) ? contentsPayload.folders : []);
+  const rawFiles = tagIdParam
+    ? (tagResources.data?.files || tagResources.data?.data?.files || [])
+    : (Array.isArray(contentsPayload?.files) ? contentsPayload.files : []);
+  const activeTagName = tagResources.data?.tag?.name || tagResources.data?.data?.tag?.name;
 
   // Filter & Sort Logic
   const { filteredFolders, filteredFiles } = useMemo(() => {
@@ -152,10 +157,11 @@ export default function MyDrive() {
 
     // Sort
     const sortFn = (a, b) => {
-      let valA, valB;
+      let valA = '';
+      let valB = '';
       if (sortBy === 'name') {
-        valA = a.name.toLowerCase();
-        valB = b.name.toLowerCase();
+        valA = (a.name || '').toLowerCase();
+        valB = (b.name || '').toLowerCase();
       } else if (sortBy === 'date') {
         valA = new Date(a.updatedAt || 0).getTime();
         valB = new Date(b.updatedAt || 0).getTime();
@@ -193,7 +199,7 @@ export default function MyDrive() {
             </span>
           </div>
           <Breadcrumbs
-            items={contents.data?.breadcrumb || [{ id: null, name: 'My Drive' }]}
+            items={contentsPayload?.breadcrumb || contentsPayload?.breadcrumbs || [{ id: null, name: 'My Drive' }]}
             onNavigate={(id) => setFolderId(id)}
           />
         </div>
@@ -423,13 +429,40 @@ export default function MyDrive() {
       {/* Modals & Upload Widgets */}
       <UploadProgress uploads={uploads} onCancel={cancelUpload} onClear={clearFinished} />
 
+      {/* Upload Modal triggered by ?upload=1 */}
+      <Modal
+        open={params.get('upload') === '1'}
+        onClose={() => navigate('/drive', { replace: true })}
+        title="Upload Files to Storvix"
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Select files from your computer or drag and drop them below to upload.
+          </p>
+          <UploadZone
+            onDrop={(accepted) => {
+              uploadFiles(accepted);
+              navigate('/drive', { replace: true });
+            }}
+          />
+        </div>
+      </Modal>
+
       <CreateFolderModal
         open={createOpen}
-        onClose={() => setCreateOpen(false)}
+        onClose={() => {
+          setCreateOpen(false);
+          if (params.get('createFolder') === '1') {
+            navigate('/drive', { replace: true });
+          }
+        }}
         loading={createFolder.isPending}
         onCreate={async (name) => {
           await createFolder.mutateAsync(name);
           setCreateOpen(false);
+          if (params.get('createFolder') === '1') {
+            navigate('/drive', { replace: true });
+          }
         }}
       />
 

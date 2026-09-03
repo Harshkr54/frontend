@@ -17,29 +17,33 @@ export function CreateFolderModal({ open, onClose, onCreate, loading }) {
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Create new folder">
+    <Modal open={open} onClose={onClose} title="Create New Folder">
       <form onSubmit={submit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Folder name</label>
+          <label className="mb-1 block text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">Folder Name</label>
           <input
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-xl border border-[var(--color-line)] bg-white px-3 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-teal-500/30 dark:bg-slate-800 dark:text-slate-100"
-            placeholder="Documents"
+            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-medium text-[#111827] outline-none transition focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:focus:border-[#5b7cff] sm:text-sm"
+            placeholder="e.g. Project Documents"
           />
-          {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
+          {error && <p className="mt-1 text-xs text-[#dc2626] dark:text-red-400">{error}</p>}
         </div>
-        <div className="flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="rounded-xl border border-[var(--color-line)] px-4 py-2 text-sm text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+        <div className="flex justify-end gap-2 pt-1">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-[#e5e7eb] bg-white px-3.5 py-2 text-xs font-semibold text-[#6b7280] transition hover:bg-[#f9fafb] hover:text-[#111827] dark:border-[#253044] dark:bg-[#111827] dark:text-[#9ca3af] dark:hover:bg-[#151c29] dark:hover:text-[#f9fafb] cursor-pointer"
+          >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-60"
+            className="rounded-lg bg-[#3157d5] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[#2649bd] disabled:opacity-60 cursor-pointer"
           >
-            {loading ? 'Creating...' : 'Create'}
+            {loading ? 'Creating...' : 'Create Folder'}
           </button>
         </div>
       </form>
@@ -55,7 +59,7 @@ export function RenameModal({ open, onClose, onRename, loading, initialName = ''
   }, [open, initialName]);
 
   return (
-    <Modal open={open} onClose={onClose} title="Rename">
+    <Modal open={open} onClose={onClose} title="Rename Item">
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -64,22 +68,29 @@ export function RenameModal({ open, onClose, onRename, loading, initialName = ''
         }}
         className="space-y-4"
       >
-        <input
-          autoFocus
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-xl border border-[var(--color-line)] bg-white px-3 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-teal-500/30 dark:bg-slate-800 dark:text-slate-100"
-        />
-        <div className="flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="rounded-xl border border-[var(--color-line)] px-4 py-2 text-sm text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+        <div>
+          <label className="mb-1 block text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">New Name</label>
+          <input
+            autoFocus
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-medium text-[#111827] outline-none transition focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:focus:border-[#5b7cff] sm:text-sm"
+          />
+        </div>
+        <div className="flex justify-end gap-2 pt-1">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-[#e5e7eb] bg-white px-3.5 py-2 text-xs font-semibold text-[#6b7280] transition hover:bg-[#f9fafb] hover:text-[#111827] dark:border-[#253044] dark:bg-[#111827] dark:text-[#9ca3af] dark:hover:bg-[#151c29] dark:hover:text-[#f9fafb] cursor-pointer"
+          >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+            className="rounded-lg bg-[#3157d5] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[#2649bd] disabled:opacity-60 cursor-pointer"
           >
-            {loading ? 'Saving...' : 'Save'}
+            {loading ? 'Saving...' : 'Save Name'}
           </button>
         </div>
       </form>

@@ -103,54 +103,76 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 animate-fade-up">
-      {/* Hero */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-950 p-6 text-white shadow-lg sm:p-8">
-        <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/5 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-24 left-1/3 h-64 w-64 rounded-full bg-blue-400/10 blur-3xl" />
-
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur border border-white/10">
-              <Sparkles size={14} className="text-blue-300" />
-              Cloud workspace
+      {/* Welcome Header & Compact Storage Summary */}
+      <section className="grid gap-4 lg:grid-cols-[1.5fr_1fr] items-stretch">
+        <div className="flex flex-col justify-between rounded-xl border border-[#e5e7eb] bg-white p-6 shadow-xs dark:border-[#253044] dark:bg-[#111827]">
+          <div>
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-md bg-[#eef3ff] px-2.5 py-1 text-[11px] font-semibold text-[#3157d5] dark:bg-[#1e293b] dark:text-[#5b7cff]">
+              <Sparkles size={13} />
+              Cloud Workspace
             </div>
-            <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-[#111827] dark:text-[#f9fafb] sm:text-3xl">
               Welcome back, {firstName}
             </h1>
-            <p className="mt-2 text-sm text-slate-300 sm:text-base">
-              Manage files, share securely, and pick up where you left off.
+            <p className="mt-1.5 text-xs text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+              Manage your files, share securely, and pick up where you left off.
             </p>
           </div>
 
-          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-            <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="font-medium text-slate-200">Storage</span>
-              <span className="text-slate-400">
-                {formatFileSize(used)} / {formatFileSize(quota)}
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            <button
+              type="button"
+              onClick={() => navigate('/drive?upload=1')}
+              className="inline-flex items-center gap-2 rounded-lg bg-[#3157d5] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[#2649bd] cursor-pointer"
+            >
+              <Upload size={15} />
+              Upload Files
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/drive?createFolder=1')}
+              className="inline-flex items-center gap-2 rounded-lg border border-[#e5e7eb] bg-white px-4 py-2 text-xs font-semibold text-[#111827] shadow-xs transition hover:bg-[#f9fafb] dark:border-[#253044] dark:bg-[#111827] dark:text-[#f9fafb] dark:hover:bg-[#151c29] cursor-pointer"
+            >
+              <FolderPlus size={15} />
+              New Folder
+            </button>
+          </div>
+        </div>
+
+        {/* Compact Storage Summary Card */}
+        <div className="flex flex-col justify-between rounded-xl border border-[#e5e7eb] bg-white p-6 shadow-xs dark:border-[#253044] dark:bg-[#111827]">
+          <div>
+            <div className="flex items-center justify-between text-xs font-semibold text-[#111827] dark:text-[#f9fafb]">
+              <span className="flex items-center gap-1.5">
+                <HardDrive size={15} className="text-[#3157d5] dark:text-[#5b7cff]" />
+                <span>Storage Overview</span>
+              </span>
+              <span className="text-[#6b7280] dark:text-[#9ca3af]">
+                {formatFileSize(used)} of {formatFileSize(quota)}
               </span>
             </div>
-            <div className="h-2.5 overflow-hidden rounded-full bg-white/10">
+            <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[#f7f8fa] dark:bg-[#0b0f17]">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-400 to-indigo-400 transition-all duration-700"
+                className="h-full rounded-full bg-[#3157d5] transition-all duration-500 dark:bg-[#5b7cff]"
                 style={{ width: `${pct}%` }}
               />
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Button onClick={() => navigate('/drive')} className="gap-2 bg-white text-slate-900 hover:bg-slate-100">
-                <Upload size={16} />
-                Upload files
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/drive?createFolder=1')} className="gap-2 border-white/20 text-white hover:bg-white/10">
-                <FolderPlus size={16} />
-                New folder
-              </Button>
-            </div>
+          </div>
+          <div className="mt-5 flex items-center justify-between border-t border-[#e5e7eb] pt-3.5 text-xs text-[#6b7280] dark:border-[#253044] dark:text-[#9ca3af]">
+            <span>{data?.totals?.files ?? 0} files · {data?.totals?.folders ?? 0} folders</span>
+            <button
+              type="button"
+              onClick={() => navigate('/pricing')}
+              className="font-semibold text-[#3157d5] hover:underline cursor-pointer dark:text-[#5b7cff]"
+            >
+              Upgrade Storage
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Clean Stat Cards */}
+      <section className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((card, i) => {
           const Icon = card.icon;
           return (
@@ -158,21 +180,18 @@ export default function Dashboard() {
               key={card.label}
               type="button"
               onClick={() => navigate(card.to)}
-              style={{ animationDelay: `${i * 60}ms` }}
-              className="group relative overflow-hidden rounded-2xl border border-[var(--color-line)] bg-[var(--color-panel)] p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md animate-fade-up"
+              style={{ animationDelay: `${i * 40}ms` }}
+              className="group flex items-start justify-between rounded-xl border border-[#e5e7eb] bg-white p-4.5 text-left shadow-xs transition hover:border-[#3157d5]/40 hover:shadow-sm dark:border-[#253044] dark:bg-[#111827] dark:hover:border-[#5b7cff]/40 cursor-pointer animate-fade-up"
             >
-              <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${card.accent} opacity-80`} />
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{card.label}</p>
-                  <p className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                    {card.value}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{card.hint}</p>
-                </div>
-                <div className={`rounded-xl p-2.5 ${card.soft} transition group-hover:scale-105`}>
-                  <Icon size={18} />
-                </div>
+              <div>
+                <p className="text-xs font-medium text-[#6b7280] dark:text-[#9ca3af]">{card.label}</p>
+                <p className="mt-1.5 font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-[#111827] dark:text-[#f9fafb]">
+                  {card.value}
+                </p>
+                <p className="mt-0.5 text-[11px] text-[#9ca3af] dark:text-[#6b7280]">{card.hint}</p>
+              </div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#eef3ff] text-[#3157d5] transition group-hover:scale-105 dark:bg-[#1e293b] dark:text-[#5b7cff]">
+                <Icon size={17} />
               </div>
             </button>
           );
