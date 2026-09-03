@@ -54,6 +54,8 @@ export default function Dashboard() {
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => activityApi.dashboard(),
+    staleTime: 15000,
+    gcTime: 300000,
   });
 
   if (isLoading) return <LoadingSpinner label="Loading dashboard..." />;

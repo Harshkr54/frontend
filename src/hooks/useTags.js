@@ -6,6 +6,8 @@ export function useTags() {
   return useQuery({
     queryKey: ['tags'],
     queryFn: () => tagApi.list(),
+    staleTime: 60000,
+    gcTime: 300000,
   });
 }
 

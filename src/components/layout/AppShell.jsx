@@ -53,7 +53,9 @@ export function AppShell({ children }) {
   const navigate = useNavigate();
   const storageQuery = useQuery({
     queryKey: ['storage'],
-    queryFn: () => userApi.storage().then((r) => r.data),
+    queryFn: () => userApi.storage(),
+    staleTime: 30000,
+    gcTime: 300000,
   });
 
   const { data: userTags = [] } = useTags();

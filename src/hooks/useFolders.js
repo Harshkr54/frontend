@@ -6,6 +6,8 @@ export function useFolderContents(folderId = 'root') {
   return useQuery({
     queryKey: ['folder-contents', folderId || 'root'],
     queryFn: () => folderApi.contents(folderId || 'root'),
+    staleTime: 10000,
+    gcTime: 300000,
   });
 }
 
