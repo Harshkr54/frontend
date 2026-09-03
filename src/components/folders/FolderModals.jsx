@@ -25,7 +25,7 @@ export function CreateFolderModal({ open, onClose, onCreate, loading }) {
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-medium text-[#111827] outline-none transition focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:focus:border-[#5b7cff] sm:text-sm"
+            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-semibold text-[#111827] caret-[#3157d5] outline-none transition placeholder:text-[#6b7280] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#151c29] dark:text-[#f9fafb] dark:caret-[#5b7cff] dark:placeholder:text-[#9ca3af] dark:focus:border-[#5b7cff] dark:focus:bg-[#111827] sm:text-sm"
             placeholder="e.g. Project Documents"
           />
           {error && <p className="mt-1 text-xs text-[#dc2626] dark:text-red-400">{error}</p>}
@@ -74,7 +74,7 @@ export function RenameModal({ open, onClose, onRename, loading, initialName = ''
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-medium text-[#111827] outline-none transition focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:focus:border-[#5b7cff] sm:text-sm"
+            className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] px-3.5 py-2 text-xs font-semibold text-[#111827] caret-[#3157d5] outline-none transition placeholder:text-[#6b7280] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#151c29] dark:text-[#f9fafb] dark:caret-[#5b7cff] dark:placeholder:text-[#9ca3af] dark:focus:border-[#5b7cff] dark:focus:bg-[#111827] sm:text-sm"
           />
         </div>
         <div className="flex justify-end gap-2 pt-1">

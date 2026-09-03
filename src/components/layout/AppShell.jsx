@@ -283,7 +283,7 @@ export function AppShell({ children }) {
                   if (q.trim()) setShowSuggestions(true);
                 }}
                 placeholder="Search files, folders and documents..."
-                className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] py-2 pl-10 pr-10 text-xs font-semibold text-[#111827] outline-none transition placeholder:text-[#9ca3af] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#0b0f17] dark:text-[#f9fafb] dark:placeholder:text-[#6b7280] dark:focus:border-[#5b7cff] sm:text-sm"
+                className="w-full rounded-lg border border-[#e5e7eb] bg-[#f7f8fa] py-2 pl-10 pr-10 text-xs font-semibold text-[#111827] caret-[#3157d5] outline-none transition placeholder:text-[#6b7280] focus:border-[#3157d5] focus:bg-white focus:ring-2 focus:ring-[#3157d5]/15 dark:border-[#253044] dark:bg-[#151c29] dark:text-[#f9fafb] dark:caret-[#5b7cff] dark:placeholder:text-[#9ca3af] dark:focus:border-[#5b7cff] dark:focus:bg-[#111827] sm:text-sm"
               />
               <div className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-0.5 rounded border border-[#e5e7eb] bg-white px-1.5 py-0.5 text-[10px] font-semibold text-[#9ca3af] dark:border-[#253044] dark:bg-[#111827] dark:text-[#6b7280] sm:flex">
                 <Command size={10} /> K

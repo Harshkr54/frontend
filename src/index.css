@@ -62,6 +62,35 @@ input,
 select,
 textarea {
   font: inherit;
+  caret-color: #3157d5;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  caret-color: #5b7cff;
+}
+
+/* Safeguard dark mode input focus contrast */
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+}
+
+/* Fix WebKit Chrome autofill text invisibility */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f9fafb !important;
 }
 
 ::-webkit-scrollbar {
