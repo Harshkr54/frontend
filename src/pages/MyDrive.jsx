@@ -14,6 +14,7 @@ import {
   Folder as FolderIcon,
   Star,
   Sparkles,
+  AlertCircle,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
@@ -183,6 +184,33 @@ export default function MyDrive() {
   }, [rawFolders, rawFiles, activeFilter, sortBy, sortOrder]);
 
   if (contents.isLoading || (tagIdParam && tagResources.isLoading)) return <SkeletonGrid />;
+
+  if (contents.isError || (tagIdParam && tagResources.isError)) {
+    const err = contents.error || tagResources.error;
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center rounded-xl border border-[#e5e7eb] bg-white p-6 dark:border-[#253044] dark:bg-[#111827]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-[#dc2626] mb-3 dark:bg-red-950/60 dark:text-red-400">
+          <AlertCircle size={22} />
+        </div>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-[#111827] dark:text-[#f9fafb]">
+          Unable to load your drive
+        </h3>
+        <p className="mt-1 max-w-sm text-xs text-[#6b7280] dark:text-[#9ca3af]">
+          {err?.message || 'Failed to fetch drive resources from server.'}
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            contents.refetch();
+            if (tagIdParam) tagResources.refetch();
+          }}
+          className="mt-4 rounded-lg bg-[#3157d5] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#2649bd] cursor-pointer"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   const isEmpty = rawFolders.length === 0 && rawFiles.length === 0;
   const isFilteredEmpty = !isEmpty && filteredFolders.length === 0 && filteredFiles.length === 0;

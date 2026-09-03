@@ -16,13 +16,17 @@ import Profile from '../pages/Profile.jsx';
 import Pricing from '../pages/Pricing.jsx';
 import PublicShare from '../pages/PublicShare.jsx';
 
+import { ErrorBoundary } from '../components/common/ErrorBoundary.jsx';
+
 function ProtectedLayout() {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return <LoadingSpinner label="Loading session..." />;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   return (
     <AppShell>
-      <Outlet />
+      <ErrorBoundary>
+        <Outlet />
+      </ErrorBoundary>
     </AppShell>
   );
 }
