@@ -116,10 +116,11 @@ export function ShareModal({ open, onClose, resource }) {
   const emailLinkMutation = useMutation({
     mutationFn: () => publicLinkApi.email(createdLink.id, linkEmail.trim()),
     onSuccess: (res) => {
-      if (res?.data?.emailSent) {
+      const sent = res?.emailSent || res?.data?.emailSent;
+      if (sent) {
         toast.success(`Public share link emailed to ${linkEmail.trim()}`);
       } else {
-        toast.error(res?.message || 'Could not send email');
+        toast.error(res?.message || 'Public link created, but email could not be delivered.');
       }
     },
     onError: (err) => toast.error(err.message),
