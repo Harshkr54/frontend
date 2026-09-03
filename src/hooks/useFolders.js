@@ -19,7 +19,10 @@ export function useCreateFolder(folderId) {
       qc.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Folder created');
     },
-    onError: (err) => toast.error(err.message),
+    onError: async (err) => {
+      await qc.invalidateQueries({ queryKey: ['folder-contents'] });
+      toast.error(err.message);
+    },
   });
 }
 
