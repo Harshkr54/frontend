@@ -40,7 +40,7 @@ export function useDownloadFile() {
   return useMutation({
     mutationFn: async (id) => {
       const res = await fileApi.getDownload(id);
-      const url = res.data.downloadUrl;
+      const url = res.downloadUrl;
       if (url.startsWith('/')) {
         const token = localStorage.getItem('accessToken');
         const full = resolveApiUrl(url);

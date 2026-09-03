@@ -82,7 +82,7 @@ export default function MyDrive() {
   const handlePreview = async (file) => {
     try {
       const res = await fileApi.getPreviewDownload(file._id);
-      const url = await loadPreviewObjectUrl(file, res.data.downloadUrl);
+      const url = await loadPreviewObjectUrl(file, res.downloadUrl);
       setPreview((prev) => {
         revokePreviewObjectUrl(prev.url);
         return { file, url };
