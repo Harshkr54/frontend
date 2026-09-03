@@ -323,6 +323,54 @@ export default function MyDrive() {
         </div>
       )}
 
+      {/* Quick Access Cards Section */}
+      {!isEmpty && (rawFolders.length > 0 || rawFiles.length > 0) && (
+        <div className="space-y-3 pt-1">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Quick Access
+          </h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {rawFolders.slice(0, 2).map((folder) => (
+              <div
+                key={folder._id}
+                onClick={() => openItem(folder, 'folder')}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-[#f5f7fb] p-3 shadow-2xs transition hover:border-blue-400 hover:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-800/80 dark:hover:bg-slate-800 cursor-pointer"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-950/80 dark:text-amber-400">
+                  <FolderIcon size={20} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    {folder.name}
+                  </p>
+                  <p className="truncate text-[10px] text-slate-400 dark:text-slate-500">Folder</p>
+                </div>
+              </div>
+            ))}
+
+            {rawFiles.slice(0, 2).map((file) => (
+              <div
+                key={file._id}
+                onClick={() => handlePreview(file)}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-[#f5f7fb] p-3 shadow-2xs transition hover:border-blue-400 hover:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-800/80 dark:hover:bg-slate-800 cursor-pointer"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950/80 dark:text-blue-400">
+                  <FileText size={20} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    {file.name}
+                  </p>
+                  <p className="truncate text-[10px] text-slate-400 dark:text-slate-500">
+                    {formatFileSize(file.size)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Embedded Drag & Drop Banner */}
       <UploadZone onDrop={(accepted) => uploadFiles(accepted)} />
 

@@ -94,7 +94,7 @@ export function UploadZone({ onDrop, disabled, compact = false }) {
               e.stopPropagation();
               open();
             }}
-            className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-[var(--color-accent)] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[var(--color-accent-dark)] transition"
+            className="hidden sm:inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition cursor-pointer"
           >
             <UploadCloud size={16} />
             Upload File

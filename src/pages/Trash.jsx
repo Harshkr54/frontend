@@ -43,35 +43,35 @@ export default function Trash() {
       {items.length === 0 ? (
         <EmptyState title="Trash is empty" />
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-[var(--color-line)] bg-white/80 dark:bg-slate-800/80">
-          <table className="min-w-full text-sm">
-            <thead className="border-b border-[var(--color-line)] text-left text-xs uppercase text-slate-500 dark:text-slate-400">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+          <table className="min-w-full text-xs">
+            <thead className="border-b border-slate-200 bg-slate-50/80 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-400">
               <tr>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Deleted</th>
-                <th className="px-4 py-3">Actions</th>
+                <th className="px-4 py-3">Deleted Date</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {items.map((item) => (
-                <tr key={`${item.type}-${item.id}`} className="border-b border-slate-100 dark:border-slate-700">
-                  <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-100">{item.name}</td>
-                  <td className="px-4 py-3 capitalize text-slate-600 dark:text-slate-300">{item.type}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{formatDate(item.deletedAt)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap gap-2">
+                <tr key={`${item.type}-${item.id}`} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
+                  <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">{item.name}</td>
+                  <td className="px-4 py-3 capitalize text-slate-500 dark:text-slate-400">{item.type}</td>
+                  <td className="px-4 py-3 text-slate-400 dark:text-slate-500">{formatDate(item.deletedAt)}</td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-2">
                       <button
                         type="button"
                         onClick={() => restore.mutate({ id: item.id, type: item.type })}
-                        className="text-blue-700 hover:underline dark:text-blue-400"
+                        className="rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-600 hover:bg-blue-100 transition dark:bg-blue-950/60 dark:text-blue-400 cursor-pointer"
                       >
                         Restore
                       </button>
                       <button
                         type="button"
                         onClick={() => setConfirm(item)}
-                        className="text-red-600 hover:underline dark:text-red-400"
+                        className="rounded-lg bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600 hover:bg-red-100 transition dark:bg-red-950/60 dark:text-red-400 cursor-pointer"
                       >
                         Delete forever
                       </button>

@@ -38,18 +38,18 @@ export default function Search() {
             else next.set('type', e.target.value);
             setParams(next);
           }}
-          className="rounded-xl border border-[var(--color-line)] bg-white px-3 py-2 text-sm text-slate-800 dark:bg-slate-800 dark:text-slate-100 cursor-pointer outline-none focus:border-blue-500"
+          className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
         >
-          <option value="all">All</option>
-          <option value="file">Files</option>
-          <option value="folder">Folders</option>
+          <option value="all">All items</option>
+          <option value="file">Files only</option>
+          <option value="folder">Folders only</option>
         </select>
       </div>
 
       {!q && <EmptyState title="Start searching" description="Use the top search bar to find files and folders." />}
       {q && (isLoading || isFetching) && <LoadingSpinner label="Searching..." />}
       {q && !isLoading && items.length === 0 && (
-        <EmptyState title="No matches" description={`No files or folders matched "${q}".`} />
+        <EmptyState title="No matches found" description={`No files or folders matched "${q}".`} />
       )}
 
       <div className="space-y-2">
@@ -67,12 +67,14 @@ export default function Search() {
                   navigate('/drive');
                 }
               }}
-              className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 p-3.5 shadow-xs transition hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-slate-700 cursor-pointer"
+              className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3.5 shadow-2xs transition hover:border-blue-400 hover:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 cursor-pointer"
             >
-              <Icon size={22} className={isFolder ? 'text-amber-500 shrink-0' : 'text-blue-600 shrink-0'} />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+                <Icon size={20} className={isFolder ? 'text-amber-500' : 'text-blue-600 dark:text-blue-400'} />
+              </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-bold text-slate-800 dark:text-slate-100">{item.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">{item.name}</p>
+                <p className="mt-0.5 text-[10px] text-slate-400 dark:text-slate-500">
                   {isFolder ? 'Folder' : item.mimeType || 'File'} · {formatDate(item.updatedAt)}
                 </p>
               </div>

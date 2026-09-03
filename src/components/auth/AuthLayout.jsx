@@ -34,7 +34,7 @@ export default function AuthLayout({ title, subtitle, children, footerLink, comp
     <div
       className={
         compactOnMobile
-          ? 'flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden bg-[#4A90E2] lg:h-full lg:max-h-none lg:min-h-0 lg:flex-row lg:overflow-y-auto lg:bg-white'
+          ? 'flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden bg-[#2563eb] lg:h-full lg:max-h-none lg:min-h-0 lg:flex-row lg:overflow-y-auto lg:bg-white'
           : 'flex h-full min-h-0 flex-col overflow-y-auto overflow-x-hidden bg-white lg:flex-row'
       }
     >
@@ -65,7 +65,7 @@ export default function AuthLayout({ title, subtitle, children, footerLink, comp
               { value: '99.9%', label: 'Uptime' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#5ba3e8] sm:text-3xl">
+                <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[#2563eb] sm:text-3xl">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
@@ -75,7 +75,7 @@ export default function AuthLayout({ title, subtitle, children, footerLink, comp
         </div>
 
         <p
-          className="mt-14 text-2xl text-[#14b8a6] sm:text-3xl"
+          className="mt-14 text-2xl text-[#2563eb] sm:text-3xl"
           style={{ fontFamily: '"Caveat", cursive' }}
         >
           Your Files, Our Responsibility
@@ -86,8 +86,8 @@ export default function AuthLayout({ title, subtitle, children, footerLink, comp
       <section
         className={
           compactOnMobile
-            ? 'relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#4A90E2] text-white lg:justify-center lg:overflow-visible lg:px-16 lg:py-14 xl:px-20'
-            : 'relative flex flex-1 flex-col justify-center bg-[#4A90E2] px-8 py-12 text-white sm:px-12 lg:px-16 xl:px-20'
+            ? 'relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#2563eb] text-white lg:justify-center lg:overflow-visible lg:px-16 lg:py-14 xl:px-20'
+            : 'relative flex flex-1 flex-col justify-center bg-[#2563eb] px-8 py-12 text-white sm:px-12 lg:px-16 xl:px-20'
         }
         style={compactOnMobile ? mobileSafe : undefined}
       >
@@ -170,7 +170,7 @@ export function AuthPrimaryButton({ children, disabled, type = 'submit' }) {
     <button
       type={type}
       disabled={disabled}
-      className="w-full rounded-xl bg-white py-3.5 text-base font-semibold text-[#4A90E2] shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+      className="w-full rounded-full bg-white py-3.5 text-sm font-bold text-[#2563eb] shadow-md transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
     >
       {children}
     </button>

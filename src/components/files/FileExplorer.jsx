@@ -168,43 +168,14 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
   if (view === 'list') {
     return (
       <div
-        className="group relative flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 px-4 py-3 transition hover:bg-white dark:hover:bg-slate-800/80 hover:shadow-xs cursor-pointer"
+        className="group flex items-center justify-between border-b border-slate-100 bg-white px-4 py-3 text-xs text-slate-700 transition hover:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800/60 cursor-pointer"
         onDoubleClick={() => onOpen?.(item, type)}
       >
-        <div className="flex min-w-0 flex-1 items-center gap-3.5">
-          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${config.gradient} border`}>
-            <Icon size={18} />
+        <div className="flex min-w-0 flex-1 items-center gap-3 pr-4">
+          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${config.gradient} border shadow-2xs`}>
+            <Icon size={16} />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100 hover:text-teal-600 dark:hover:text-teal-400 cursor-pointer" onClick={() => onOpen?.(item, type)}>
-                {item.name}
-              </span>
-              {isStarred && <Star size={14} className="fill-amber-400 text-amber-400 shrink-0" />}
-              {(item.tags || []).map((t) => (
-                <TagBadge key={t._id || t.id} tag={t} />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6 text-xs text-slate-500 dark:text-slate-400">
-          <span className="hidden w-24 text-right sm:block font-medium">
-            {isFolder ? 'Folder' : formatFileSize(item.size)}
-          </span>
-          <span className="hidden w-28 text-right md:block">{formatDate(item.updatedAt)}</span>
-          
-          <div className="flex items-center gap-1">
-            {!isFolder && (
-              <button
-                type="button"
-                onClick={() => onPreview?.(item)}
-                className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-teal-600 dark:hover:text-teal-400 dark:text-slate-400 cursor-pointer"
-                title="Preview"
-              >
-                <Eye size={16} />
-              </button>
-            )}
             {!isFolder && (
               <button
                 type="button"
@@ -362,11 +333,12 @@ export function FileExplorer({
     <>
       {view === 'list' ? (
         <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 shadow-xs backdrop-blur-xs">
-          <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/80 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <div className="flex border-b border-slate-200 bg-slate-50/80 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-400">
             <span className="flex-1">Name</span>
+            <span className="hidden w-36 md:block">Owner / Sharing</span>
             <span className="hidden w-24 text-right sm:block">Size</span>
-            <span className="hidden w-28 text-right md:block">Modified</span>
-            <span className="w-28 text-right">Actions</span>
+            <span className="hidden w-32 text-right md:block">Last Modified</span>
+            <span className="w-32 text-right">Actions</span>
           </div>
 
           {/* Folders */}

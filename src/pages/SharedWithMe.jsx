@@ -20,32 +20,36 @@ export default function SharedWithMe() {
       {items.length === 0 ? (
         <EmptyState title="Nothing shared yet" description="Files and folders shared with you will appear here." />
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-[var(--color-line)] bg-white/80 dark:bg-slate-800/80">
-          <table className="min-w-full text-sm">
-            <thead className="border-b border-[var(--color-line)] text-left text-xs uppercase text-slate-500 dark:text-slate-400">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+          <table className="min-w-full text-xs">
+            <thead className="border-b border-slate-200 bg-slate-50/80 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-400">
               <tr>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Owner</th>
                 <th className="px-4 py-3">Role</th>
-                <th className="px-4 py-3">Shared</th>
+                <th className="px-4 py-3">Shared Date</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {items.map((share) => {
                 const item = share.file || share.folder;
                 const isFolder = Boolean(share.folder);
                 const Icon = getFileIcon(item?.mimeType, isFolder);
                 return (
-                  <tr key={share._id} className="border-b border-slate-100 dark:border-slate-700">
-                    <td className="px-4 py-3 text-slate-800 dark:text-slate-100">
-                      <div className="flex items-center gap-2">
-                        <Icon size={18} className={isFolder ? 'text-amber-500' : 'text-teal-600'} />
-                        {item?.name}
+                  <tr key={share._id} className="transition hover:bg-blue-50/50 dark:hover:bg-slate-800/60">
+                    <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">
+                      <div className="flex items-center gap-2.5">
+                        <Icon size={18} className={isFolder ? 'text-amber-500' : 'text-blue-600 dark:text-blue-400'} />
+                        <span>{item?.name}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{share.owner?.name || share.owner?.email}</td>
-                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{share.role}</td>
-                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{formatDate(share.createdAt)}</td>
+                    <td className="px-4 py-3">
+                      <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+                        {share.role}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-slate-400 dark:text-slate-500">{formatDate(share.createdAt)}</td>
                   </tr>
                 );
               })}

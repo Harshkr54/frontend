@@ -39,23 +39,28 @@ export default function Starred() {
             const isFolder = Boolean(star.folder);
             const Icon = getFileIcon(item?.mimeType, isFolder);
             return (
-              <div key={star._id} className="rounded-2xl border border-[var(--color-line)] bg-white/80 p-4 dark:bg-slate-800/80">
+              <div key={star._id} className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs transition hover:border-blue-400 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                 <div className="mb-3 flex items-start justify-between">
-                  <Icon size={28} className={isFolder ? 'text-amber-500' : 'text-teal-600'} />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+                    <Icon size={22} className={isFolder ? 'text-amber-500' : 'text-blue-600 dark:text-blue-400'} />
+                  </div>
                   <button
                     type="button"
                     onClick={() =>
                       unstar.mutate(isFolder ? { folderId: item._id } : { fileId: item._id })
                     }
-                    className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
+                    className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-amber-500 dark:hover:bg-slate-800 cursor-pointer"
+                    title="Remove from Starred"
                   >
                     <StarOff size={16} />
                   </button>
                 </div>
-                <p className="font-semibold text-slate-800 dark:text-slate-100">{item?.name}</p>
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  {isFolder ? 'Folder' : 'File'} · {formatDate(star.createdAt)}
-                </p>
+                <div>
+                  <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">{item?.name}</p>
+                  <p className="mt-1 text-[10px] text-slate-400 dark:text-slate-500">
+                    {isFolder ? 'Folder' : 'File'} · {formatDate(star.createdAt)}
+                  </p>
+                </div>
               </div>
             );
           })}

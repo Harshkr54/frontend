@@ -39,24 +39,25 @@ export default function PublicShare() {
 
   if (needsPassword && !data) {
     return (
-      <div className="flex h-full items-center justify-center overflow-y-auto px-4">
+      <div className="flex h-dvh w-screen items-center justify-center bg-[#2567d6] p-4">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             load(password);
           }}
-          className="w-full max-w-sm rounded-2xl border bg-white p-6 shadow-xl"
+          className="w-full max-w-sm rounded-3xl border border-blue-400/20 bg-white p-8 shadow-2xl"
         >
-          <h1 className="mb-2 text-xl font-bold">Password required</h1>
+          <h1 className="mb-1.5 text-xl font-bold text-slate-900">Password Required</h1>
+          <p className="mb-4 text-xs text-slate-500">This shared link is password protected.</p>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mb-3 w-full rounded-xl border px-3 py-2.5"
+            className="mb-4 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-medium text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
             placeholder="Enter password"
           />
-          <button type="submit" className="w-full rounded-xl bg-teal-600 py-2.5 text-white">
-            Unlock
+          <button type="submit" className="w-full rounded-full bg-blue-600 py-3 text-xs font-bold text-white shadow-md transition hover:bg-blue-700 cursor-pointer">
+            Unlock Content
           </button>
         </form>
       </div>
@@ -65,8 +66,10 @@ export default function PublicShare() {
 
   if (!data) {
     return (
-      <div className="flex h-full items-center justify-center overflow-y-auto">
-        <p>Public link unavailable</p>
+      <div className="flex h-dvh w-screen items-center justify-center bg-[#2567d6] p-4">
+        <div className="rounded-3xl bg-white p-8 text-center text-xs font-semibold text-slate-500 shadow-2xl">
+          Public link unavailable or expired
+        </div>
       </div>
     );
   }
@@ -74,37 +77,49 @@ export default function PublicShare() {
   const resource = data.resource;
 
   return (
-    <div className="mx-auto flex h-full max-w-3xl flex-col justify-center overflow-y-auto px-4 py-10">
-      <div className="rounded-3xl border border-[var(--color-line)] bg-white/90 p-8 shadow-xl">
-        <p className="text-sm uppercase tracking-wide text-teal-700">Shared via Strovix</p>
-        <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold">{resource.name}</h1>
+    <div className="flex h-dvh w-screen items-center justify-center bg-[#2567d6] p-4">
+      <div className="w-full max-w-2xl rounded-3xl border border-blue-400/20 bg-white p-8 shadow-2xl space-y-6">
+        <div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600">
+            Shared via Storvix
+          </span>
+          <h1 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-extrabold text-slate-900">{resource.name}</h1>
+        </div>
+
         {resource.type === 'file' ? (
-          <div className="mt-4 space-y-3">
-            <p className="text-slate-600">
+          <div className="space-y-4 pt-2 border-t border-slate-100">
+            <p className="text-xs font-medium text-slate-500">
               {resource.mimeType} · {formatFileSize(resource.size)}
             </p>
             {data.downloadUrl && (
               <a
                 href={data.downloadUrl.startsWith('/') ? resolveApiUrl(data.downloadUrl) : data.downloadUrl}
-                className="inline-flex rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-xs font-bold text-white shadow-md transition hover:bg-blue-700 cursor-pointer"
               >
-                Download
+                Download File
               </a>
             )}
           </div>
         ) : (
-          <div className="mt-4 space-y-2">
-            <p className="text-sm text-slate-500">Folder contents</p>
-            {(resource.folders || []).map((f) => (
-              <div key={f._id} className="rounded-xl bg-slate-50 px-3 py-2 text-sm">
-                📁 {f.name}
-              </div>
-            ))}
-            {(resource.files || []).map((f) => (
-              <div key={f._id} className="rounded-xl bg-slate-50 px-3 py-2 text-sm">
-                📄 {f.name} · {formatFileSize(f.size)}
-              </div>
-            ))}
+          <div className="space-y-3 pt-2 border-t border-slate-100">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Folder Contents</p>
+            <div className="space-y-2">
+              {(resource.folders || []).map((f) => (
+                <div key={f._id} className="flex items-center gap-2 rounded-xl bg-slate-50 p-3 text-xs font-semibold text-slate-800">
+                  <span>📁</span>
+                  <span>{f.name}</span>
+                </div>
+              ))}
+              {(resource.files || []).map((f) => (
+                <div key={f._id} className="flex items-center justify-between rounded-xl bg-slate-50 p-3 text-xs font-semibold text-slate-800">
+                  <div className="flex items-center gap-2 truncate">
+                    <span>📄</span>
+                    <span className="truncate">{f.name}</span>
+                  </div>
+                  <span className="text-[10px] text-slate-400 shrink-0">{formatFileSize(f.size)}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
