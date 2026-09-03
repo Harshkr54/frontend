@@ -53,7 +53,7 @@ export default function Dashboard() {
   const { user } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
-    queryFn: () => activityApi.dashboard().then((r) => r.data),
+    queryFn: () => activityApi.dashboard(),
   });
 
   if (isLoading) return <LoadingSpinner label="Loading dashboard..." />;
