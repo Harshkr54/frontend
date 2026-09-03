@@ -27,6 +27,9 @@ export const fileApi = {
   remove: (id) => api.delete(`/files/${id}`).then((r) => r.data),
   restore: (id) => api.post(`/files/${id}/restore`).then((r) => r.data),
   permanentDelete: (id) => api.delete(`/files/${id}/permanent`).then((r) => r.data),
+  getRevisions: (id) => api.get(`/files/${id}/revisions`).then((r) => r?.data || r),
+  downloadRevision: (fileId, revisionId) => api.get(`/files/${fileId}/revisions/${revisionId}/download`).then((r) => r?.data || r),
+  restoreRevision: (fileId, revisionId) => api.post(`/files/${fileId}/revisions/${revisionId}/restore`).then((r) => r?.data || r),
 };
 
 export default fileApi;

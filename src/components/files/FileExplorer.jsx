@@ -17,6 +17,7 @@ import {
   FileSpreadsheet,
   FolderOpen,
   Sparkles,
+  History,
 } from 'lucide-react';
 import { formatFileSize } from '../../utils/formatFileSize.js';
 import { formatDate } from '../../utils/formatDate.js';
@@ -126,7 +127,7 @@ function ContextMenu({ open, onClose, actions }) {
   );
 }
 
-export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, onShare, onStar, onPreview, onAi, view }) {
+export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, onShare, onStar, onPreview, onAi, onVersions, view }) {
   const [menu, setMenu] = useState(false);
   const isFolder = type === 'folder';
   const config = getFileTypeConfig(item.mimeType, isFolder);
@@ -141,6 +142,11 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
     },
     !isFolder && { label: 'Preview', icon: <Eye size={14} />, onClick: () => onPreview?.(item) },
     !isFolder && { label: 'Download', icon: <Download size={14} />, onClick: () => onDownload?.(item) },
+    !isFolder && {
+      label: 'Version History',
+      icon: <History size={14} className="text-blue-500" />,
+      onClick: () => onVersions?.(item),
+    },
     { label: 'Rename', icon: <Pencil size={14} />, onClick: () => onRename?.(item, type) },
     { label: 'Share', icon: <Share2 size={14} />, onClick: () => onShare?.(item, type) },
     {
@@ -326,6 +332,7 @@ export function FileExplorer({
   onShare,
   onStar,
   onPreview,
+  onVersions,
 }) {
   const [aiFile, setAiFile] = useState(null);
   const hasFolders = folders.length > 0;
@@ -377,6 +384,7 @@ export function FileExplorer({
                   onShare={onShare}
                   onStar={onStar}
                   onPreview={onPreview}
+                  onVersions={onVersions}
                   onAi={(fileItem) => setAiFile(fileItem)}
                 />
               ))}
@@ -433,6 +441,7 @@ export function FileExplorer({
                     onShare={onShare}
                     onStar={onStar}
                     onPreview={onPreview}
+                    onVersions={onVersions}
                     onAi={(fileItem) => setAiFile(fileItem)}
                   />
                 ))}

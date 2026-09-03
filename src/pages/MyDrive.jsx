@@ -23,6 +23,7 @@ import { UploadZone, UploadProgress } from '../components/files/UploadZone.jsx';
 import { CreateFolderModal, RenameModal } from '../components/folders/FolderModals.jsx';
 import { ShareModal } from '../components/sharing/ShareModal.jsx';
 import { FilePreviewModal } from '../components/files/FilePreviewModal.jsx';
+import { VersionHistoryModal } from '../components/files/VersionHistoryModal.jsx';
 import { ConfirmModal, EmptyState, SkeletonGrid } from '../components/common/ui.jsx';
 import { useFolderContents, useCreateFolder, useRenameFolder, useDeleteFolder } from '../hooks/useFolders.js';
 import { useDeleteFile, useDownloadFile, useRenameFile } from '../hooks/useFiles.js';
@@ -54,6 +55,7 @@ export default function MyDrive() {
   const [renameTarget, setRenameTarget] = useState(null);
   const [shareTarget, setShareTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [versionTarget, setVersionTarget] = useState(null);
   const [preview, setPreview] = useState({ file: null, url: null });
   const qc = useQueryClient();
 
@@ -358,6 +360,7 @@ export default function MyDrive() {
           onShare={(item, type) => setShareTarget({ ...item, type })}
           onStar={onStar}
           onPreview={handlePreview}
+          onVersions={(file) => setVersionTarget(file)}
         />
       )}
 
@@ -411,6 +414,13 @@ export default function MyDrive() {
         previewUrl={preview.url}
         onClose={closePreview}
         onDownload={(file) => downloadFile.mutate(file._id)}
+      />
+
+      <VersionHistoryModal
+        open={Boolean(versionTarget)}
+        onClose={() => setVersionTarget(null)}
+        file={versionTarget}
+        onVersionRestored={() => qc.invalidateQueries({ queryKey: ['folders'] })}
       />
     </div>
   );
