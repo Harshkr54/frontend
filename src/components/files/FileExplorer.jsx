@@ -180,10 +180,10 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
               {item.name}
             </p>
             {/* Render Tag Chips */}
-            {(item.tags || []).length > 0 && (
+            {Array.isArray(item.tags) && item.tags.length > 0 && (
               <div className="mt-0.5 flex items-center gap-1 flex-wrap">
-                {item.tags.map((t) => (
-                  <TagBadge key={t._id || t.id} tag={t} />
+                {item.tags.map((t, idx) => (
+                  <TagBadge key={t?._id || t?.id || idx} tag={t} />
                 ))}
               </div>
             )}
@@ -321,10 +321,10 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
         </h4>
         
         {/* Render Tag Chips in Grid */}
-        {(item.tags || []).length > 0 && (
+        {Array.isArray(item.tags) && item.tags.length > 0 && (
           <div className="mt-1 flex items-center gap-1 flex-wrap">
-            {item.tags.map((t) => (
-              <TagBadge key={t._id || t.id} tag={t} />
+            {item.tags.map((t, idx) => (
+              <TagBadge key={t?._id || t?.id || idx} tag={t} />
             ))}
           </div>
         )}
