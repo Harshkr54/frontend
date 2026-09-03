@@ -180,9 +180,14 @@ export function StorageIndicator({ used = 0, quota = 1 }) {
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="mt-1.5 flex justify-between text-[10px] font-medium text-slate-400 dark:text-slate-500">
+      <div className="mt-2 flex items-center justify-between text-[10px] font-medium text-slate-400 dark:text-slate-500">
         <span>{pct.toFixed(0)}% used</span>
-        {isHigh && <span className="text-amber-600 font-semibold">Running low</span>}
+        <a
+          href="/pricing"
+          className="font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+        >
+          Upgrade Storage
+        </a>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   Search,
   Command,
   Tag as TagIcon,
+  Zap,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
@@ -32,6 +33,7 @@ const links = [
   { to: '/shared', label: 'Shared with me', icon: Share2 },
   { to: '/starred', label: 'Starred', icon: Star },
   { to: '/trash', label: 'Trash', icon: Trash2 },
+  { to: '/pricing', label: 'Upgrade Plans', icon: Zap },
 ];
 
 export function AppShell({ children }) {

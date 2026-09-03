@@ -12,6 +12,7 @@ import Starred from '../pages/Starred.jsx';
 import Trash from '../pages/Trash.jsx';
 import Search from '../pages/Search.jsx';
 import Profile from '../pages/Profile.jsx';
+import Pricing from '../pages/Pricing.jsx';
 import PublicShare from '../pages/PublicShare.jsx';
 
 function ProtectedLayout() {
@@ -57,6 +58,7 @@ export default function AppRoutes() {
         <Route path="/trash" element={<Trash />} />
         <Route path="/search" element={<Search />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
