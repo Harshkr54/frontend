@@ -388,7 +388,7 @@ export function FileExplorer({
             <div>
               {folders.map((folder) => (
                 <FileCard
-                  key={folder._id}
+                  key={folder.id || folder._id}
                   item={folder}
                   type="folder"
                   view="list"
@@ -408,7 +408,7 @@ export function FileExplorer({
             <div>
               {files.map((file) => (
                 <FileCard
-                  key={file._id}
+                  key={file.id || file._id}
                   item={file}
                   type="file"
                   view="list"
@@ -441,7 +441,7 @@ export function FileExplorer({
               <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {folders.map((folder) => (
                   <FileCard
-                    key={folder._id}
+                    key={folder.id || folder._id}
                     item={folder}
                     type="folder"
                     onOpen={onOpen}
@@ -468,7 +468,7 @@ export function FileExplorer({
               <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {files.map((file) => (
                   <FileCard
-                    key={file._id}
+                    key={file.id || file._id}
                     item={file}
                     type="file"
                     onOpen={onOpen}

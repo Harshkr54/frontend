@@ -80,7 +80,7 @@ export default function MyDrive() {
 
   const openItem = (item, type) => {
     if (type === 'folder') {
-      setFolderId(item._id);
+      setFolderId(item.id || item._id);
       setActiveFilter('all');
     } else {
       handlePreview(item);
@@ -89,7 +89,8 @@ export default function MyDrive() {
 
   const handlePreview = async (file) => {
     try {
-      const res = await fileApi.getPreviewDownload(file._id);
+      const fileId = file.id || file._id;
+      const res = await fileApi.getPreviewDownload(fileId);
       const url = await loadPreviewObjectUrl(file, res.downloadUrl);
       setPreview((prev) => {
         revokePreviewObjectUrl(prev.url);
@@ -109,7 +110,8 @@ export default function MyDrive() {
 
   const onStar = async (item, type) => {
     try {
-      await starApi.star(type === 'file' ? { fileId: item._id } : { folderId: item._id });
+      const itemId = item.id || item._id;
+      await starApi.star(type === 'file' ? { fileId: itemId } : { folderId: itemId });
       qc.invalidateQueries({ queryKey: ['starred'] });
       qc.invalidateQueries({ queryKey: ['folder-contents'] });
       qc.invalidateQueries({ queryKey: ['dashboard'] });
@@ -415,7 +417,7 @@ export default function MyDrive() {
           files={filteredFiles}
           view={view}
           onOpen={openItem}
-          onDownload={(file) => downloadFile.mutate(file._id)}
+          onDownload={(file) => downloadFile.mutate(file.id || file._id)}
           onRename={(item, type) => setRenameTarget({ item, type })}
           onDelete={(item, type) => setDeleteTarget({ item, type })}
           onShare={(item, type) => setShareTarget({ ...item, type })}
