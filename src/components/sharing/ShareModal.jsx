@@ -101,8 +101,8 @@ export function ShareModal({ open, onClose, resource }) {
         ...(linkEmail.trim() ? { recipientEmail: linkEmail.trim() } : {}),
       }),
     onSuccess: (res) => {
-      setCreatedLink(res.data);
-      if (res.data?.emailSent) {
+      setCreatedLink(res);
+      if (res?.emailSent) {
         toast.success(`Public link created and emailed to ${linkEmail.trim()}`);
       } else if (linkEmail.trim()) {
         toast.success(res?.message || 'Public link created, but email could not be sent.');

@@ -108,8 +108,9 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
     setLoadingAction('Summarizing document...');
     try {
       const res = await aiApi.summarize(fileId);
-      setSummaryData(res.data?.summary);
-      if (res.cached) toast.success('Loaded from cache');
+      const summaryText = res?.summary || res?.data?.summary || res?.data;
+      setSummaryData(summaryText);
+      if (res?.cached || res?.data?.cached) toast.success('Loaded from cache');
     } catch (err) {
       toast.error(err.message || 'Failed to generate summary');
     } finally {
@@ -123,8 +124,9 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
     setLoadingAction('Generating short summary...');
     try {
       const res = await aiApi.shortSummary(fileId);
-      setShortSummaryData(res.data?.shortSummary);
-      if (res.cached) toast.success('Loaded from cache');
+      const shortText = res?.shortSummary || res?.data?.shortSummary;
+      setShortSummaryData(shortText);
+      if (res?.cached || res?.data?.cached) toast.success('Loaded from cache');
     } catch (err) {
       toast.error(err.message || 'Failed to generate short summary');
     } finally {
@@ -138,8 +140,9 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
     setLoadingAction('Extracting key points...');
     try {
       const res = await aiApi.keyPoints(fileId);
-      setKeyPointsData(res.data?.points || []);
-      if (res.cached) toast.success('Loaded from cache');
+      const pointsList = res?.points || res?.data?.points || [];
+      setKeyPointsData(pointsList);
+      if (res?.cached || res?.data?.cached) toast.success('Loaded from cache');
     } catch (err) {
       toast.error(err.message || 'Failed to extract key points');
     } finally {
@@ -153,8 +156,8 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
     setLoadingAction('Extracting structured info...');
     try {
       const res = await aiApi.extractInformation(fileId);
-      setExtractedData(res.data);
-      if (res.cached) toast.success('Loaded from cache');
+      setExtractedData(res?.data || res);
+      if (res?.cached || res?.data?.cached) toast.success('Loaded from cache');
     } catch (err) {
       toast.error(err.message || 'Failed to extract information');
     } finally {
@@ -176,8 +179,9 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
 
     try {
       const res = await aiApi.ask(fileId, userQ);
-      if (res.data?.messages) {
-        setMessages(res.data.messages);
+      const msgs = res?.messages || res?.data?.messages;
+      if (msgs) {
+        setMessages(msgs);
       }
     } catch (err) {
       toast.error(err.message || 'Failed to answer question');
