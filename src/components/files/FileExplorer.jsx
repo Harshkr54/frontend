@@ -30,71 +30,71 @@ function getFileTypeConfig(mimeType = '', isFolder = false) {
   if (isFolder) {
     return {
       icon: Folder,
-      gradient: 'from-amber-400/20 to-orange-400/20 text-amber-600 dark:text-amber-400 border-amber-200/50 dark:border-amber-900/40',
-      badgeBg: 'bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300',
+      gradient: 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900/50',
+      badgeBg: 'bg-amber-50 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300',
       label: 'Folder',
     };
   }
   if (mimeType.startsWith('image/')) {
     return {
       icon: FileImage,
-      gradient: 'from-indigo-500/20 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-200/50 dark:border-indigo-900/40',
-      badgeBg: 'bg-indigo-100 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300',
+      gradient: 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/50',
+      badgeBg: 'bg-blue-50 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300',
       label: 'Image',
     };
   }
   if (mimeType.startsWith('audio/')) {
     return {
       icon: FileAudio,
-      gradient: 'from-pink-500/20 to-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-200/50 dark:border-rose-900/40',
-      badgeBg: 'bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300',
+      gradient: 'bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/40 dark:text-purple-400 dark:border-purple-900/50',
+      badgeBg: 'bg-purple-50 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300',
       label: 'Audio',
     };
   }
   if (mimeType.startsWith('video/')) {
     return {
       icon: FileVideo,
-      gradient: 'from-violet-500/20 to-fuchsia-500/20 text-purple-600 dark:text-purple-400 border-purple-200/50 dark:border-purple-900/40',
-      badgeBg: 'bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300',
+      gradient: 'bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-900/50',
+      badgeBg: 'bg-indigo-50 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300',
       label: 'Video',
     };
   }
   if (mimeType.includes('pdf')) {
     return {
       icon: FileText,
-      gradient: 'from-red-500/20 to-orange-500/20 text-red-600 dark:text-red-400 border-red-200/50 dark:border-red-900/40',
-      badgeBg: 'bg-red-100 dark:bg-red-950/80 text-red-800 dark:text-red-300',
+      gradient: 'bg-red-50 text-red-600 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900/50',
+      badgeBg: 'bg-red-50 dark:bg-red-950/80 text-red-800 dark:text-red-300',
       label: 'PDF',
     };
   }
   if (mimeType.startsWith('text/')) {
     return {
       icon: FileText,
-      gradient: 'from-blue-500/20 to-cyan-500/20 text-blue-600 dark:text-blue-400 border-blue-200/50 dark:border-blue-900/40',
-      badgeBg: 'bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300',
+      gradient: 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50',
+      badgeBg: 'bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300',
       label: 'Text',
     };
   }
   if (mimeType.includes('sheet') || mimeType.includes('excel') || mimeType.includes('csv')) {
     return {
       icon: FileSpreadsheet,
-      gradient: 'from-emerald-500/20 to-teal-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-200/50 dark:border-emerald-900/40',
-      badgeBg: 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300',
+      gradient: 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50',
+      badgeBg: 'bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300',
       label: 'Spreadsheet',
     };
   }
   if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('7z') || mimeType.includes('tar')) {
     return {
       icon: FileArchive,
-      gradient: 'from-cyan-500/20 to-teal-500/20 text-cyan-600 dark:text-cyan-400 border-cyan-200/50 dark:border-cyan-900/40',
-      badgeBg: 'bg-cyan-100 dark:bg-cyan-950/80 text-cyan-800 dark:text-cyan-300',
+      gradient: 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900/50',
+      badgeBg: 'bg-amber-50 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300',
       label: 'Archive',
     };
   }
   return {
     icon: File,
-    gradient: 'from-slate-500/20 to-gray-500/20 text-slate-600 dark:text-slate-400 border-slate-200/50 dark:border-slate-800',
-    badgeBg: 'bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-300',
+    gradient: 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700',
+    badgeBg: 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300',
     label: 'File',
   };
 }
@@ -104,7 +104,7 @@ function ContextMenu({ open, onClose, actions }) {
   return (
     <>
       <div className="fixed inset-0 z-20" onClick={onClose} aria-hidden="true" />
-      <div className="absolute right-2 top-10 z-30 min-w-[170px] overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-700/80 bg-white/95 dark:bg-slate-900/95 p-1.5 shadow-xl backdrop-blur-md animate-scale-up">
+      <div className="absolute right-2 top-10 z-30 min-w-[170px] overflow-hidden rounded-xl border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-800 dark:bg-slate-900 animate-scale-up">
         {actions.map((action) => (
           <button
             key={action.label}
@@ -114,10 +114,10 @@ function ContextMenu({ open, onClose, actions }) {
               onClose();
               action.onClick();
             }}
-            className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-semibold transition cursor-pointer ${
+            className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-left text-xs font-semibold transition cursor-pointer ${
               action.danger
                 ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50'
-                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-800/80'
+                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
             {action.icon}

@@ -27,29 +27,29 @@ export default function Profile() {
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold text-slate-900 dark:text-slate-100">Profile</h1>
+      <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold text-slate-900 dark:text-slate-100">Profile Settings</h1>
 
-      <form onSubmit={onSave} className="space-y-4 rounded-2xl border border-[var(--color-line)] bg-white/80 p-5 dark:bg-slate-800/80">
+      <form onSubmit={onSave} className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Name</label>
+          <label className="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-xl border border-[var(--color-line)] bg-white px-3 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-teal-500/30 dark:bg-slate-900 dark:text-slate-100"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Email</label>
-          <input value={user?.email || ''} disabled className="w-full rounded-xl border border-[var(--color-line)] bg-slate-50 px-3 py-2.5 text-slate-600 dark:bg-slate-900/60 dark:text-slate-400" />
+          <label className="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+          <input value={user?.email || ''} disabled className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-medium text-slate-500 opacity-80 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Role</label>
-          <input value={user?.role || 'USER'} disabled className="w-full rounded-xl border border-[var(--color-line)] bg-slate-50 px-3 py-2.5 text-slate-600 dark:bg-slate-900/60 dark:text-slate-400" />
+          <label className="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Role</label>
+          <input value={user?.role || 'USER'} disabled className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-medium text-slate-500 opacity-80 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400" />
         </div>
         <button
           type="submit"
           disabled={saving}
-          className="rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-60"
+          className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60 cursor-pointer"
         >
           {saving ? 'Saving...' : 'Save changes'}
         </button>

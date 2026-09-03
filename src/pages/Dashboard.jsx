@@ -72,8 +72,7 @@ export default function Dashboard() {
       value: data?.totals?.files ?? 0,
       hint: 'In your drive',
       icon: FileText,
-      accent: 'from-blue-500 to-indigo-500',
-      soft: 'bg-blue-50 text-blue-700',
+      soft: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400',
       to: '/drive',
     },
     {
@@ -81,8 +80,7 @@ export default function Dashboard() {
       value: data?.totals?.folders ?? 0,
       hint: 'Organized spaces',
       icon: Folder,
-      accent: 'from-sky-500 to-blue-500',
-      soft: 'bg-sky-50 text-sky-700',
+      soft: 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400',
       to: '/drive',
     },
     {
@@ -90,8 +88,7 @@ export default function Dashboard() {
       value: data?.totals?.starred ?? 0,
       hint: 'Quick access',
       icon: Star,
-      accent: 'from-amber-400 to-orange-500',
-      soft: 'bg-amber-50 text-amber-700',
+      soft: 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400',
       to: '/starred',
     },
     {
@@ -99,9 +96,8 @@ export default function Dashboard() {
       value: formatFileSize(used),
       hint: `${pct.toFixed(1)}% of ${formatFileSize(quota)}`,
       icon: HardDrive,
-      accent: 'from-indigo-500 to-slate-600',
-      soft: 'bg-indigo-50 text-indigo-700',
-      to: '/profile',
+      soft: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
+      to: '/pricing',
     },
   ];
 

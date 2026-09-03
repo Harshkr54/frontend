@@ -97,41 +97,41 @@ export function AppShell({ children }) {
   const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
 
   const Sidebar = (
-    <aside className="flex h-full w-64 flex-col border-r border-slate-200/80 bg-white/90 shadow-[4px_0_24px_rgba(15,23,42,0.03)] backdrop-blur-md transition-colors duration-300 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-none">
-      <div className="flex shrink-0 items-center gap-3 border-b border-slate-100 px-6 py-5 dark:border-slate-800">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500 via-blue-600 to-indigo-500 text-white shadow-md shadow-blue-500/25">
-          <Cloud size={22} className="animate-pulse" />
+    <aside className="flex h-full w-60 flex-col border-r border-slate-200 bg-white shadow-2xs backdrop-blur-md transition-colors duration-200 dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex shrink-0 items-center gap-2.5 border-b border-slate-100 px-5 py-4 dark:border-slate-800/80">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-xs">
+          <Cloud size={20} strokeWidth={2.25} />
         </div>
         <div>
-          <p className="font-[family-name:var(--font-display)] text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-            Strovix
+          <p className="font-[family-name:var(--font-display)] text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            Storvix
           </p>
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
             Cloud Drive
           </p>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1.5 px-3.5 py-4">
+      <nav className="flex-1 space-y-1 px-3 py-3">
         {links.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm font-semibold transition-all ${
+              `group flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md shadow-blue-500/20'
-                  : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100'
+                  ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 font-bold'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-200'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <Icon
-                  size={19}
+                  size={18}
                   className={
-                    isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'
+                    isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300'
                   }
                 />
                 <span>{label}</span>
@@ -143,7 +143,7 @@ export function AppShell({ children }) {
         {/* User Tags Section */}
         {userTags.length > 0 && (
           <div className="pt-4 space-y-1">
-            <p className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
               Tags
             </p>
             {userTags.map((tag) => {
@@ -155,10 +155,10 @@ export function AppShell({ children }) {
                   to={`/drive?tag=${tagId}`}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `group flex items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-bold transition-all ${
+                    `group flex items-center gap-2.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
                       isActive
-                        ? 'bg-slate-200/80 text-slate-900 dark:bg-slate-800 dark:text-slate-100 shadow-xs'
-                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60'
+                        ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100 font-semibold'
+                        : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800/60'
                     }`
                   }
                 >
@@ -171,7 +171,7 @@ export function AppShell({ children }) {
         )}
       </nav>
 
-      <div className="mt-auto space-y-3 border-t border-slate-100 bg-slate-50/40 p-4 dark:border-slate-800 dark:bg-slate-900/50">
+      <div className="mt-auto space-y-2 border-t border-slate-100 p-3.5 dark:border-slate-800/80">
         {storageQuery.data && (
           <StorageIndicator used={storageQuery.data.storageUsed} quota={storageQuery.data.storageQuota} />
         )}
@@ -182,23 +182,23 @@ export function AppShell({ children }) {
             navigate('/profile');
             setOpen(false);
           }}
-          className="flex w-full items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-2.5 text-left text-xs font-medium transition hover:border-slate-300 hover:shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
+          className="flex w-full items-center gap-2.5 rounded-xl border border-slate-200/80 bg-slate-50/50 p-2 text-left text-xs font-medium transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white shadow-xs">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 font-bold text-white shadow-2xs text-xs">
             {userInitial}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate font-bold text-slate-800 dark:text-slate-100">{user?.name || 'User'}</p>
-            <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{user?.email}</p>
+            <p className="truncate font-semibold text-slate-900 dark:text-slate-100">{user?.name || 'User'}</p>
+            <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">{user?.email}</p>
           </div>
         </button>
 
         <button
           type="button"
           onClick={() => setLogoutOpen(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
+          className="flex w-full items-center justify-center gap-2 rounded-xl py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
         >
-          <LogOut size={15} />
+          <LogOut size={14} />
           Logout
         </button>
       </div>
