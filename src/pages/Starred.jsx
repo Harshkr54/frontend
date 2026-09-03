@@ -10,13 +10,15 @@ export default function Starred() {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ['starred'],
-    queryFn: () => starApi.list().then((r) => r.data),
+    queryFn: () => starApi.list(),
   });
 
   const unstar = useMutation({
     mutationFn: (payload) => starApi.unstar(payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['starred'] });
+      qc.invalidateQueries({ queryKey: ['folder-contents'] });
+      qc.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Removed from starred');
     },
     onError: (err) => toast.error(err.message),

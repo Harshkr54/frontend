@@ -104,6 +104,7 @@ export default function MyDrive() {
       await starApi.star(type === 'file' ? { fileId: item._id } : { folderId: item._id });
       qc.invalidateQueries({ queryKey: ['starred'] });
       qc.invalidateQueries({ queryKey: ['folder-contents'] });
+      qc.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success(item.isStarred ? 'Unstarred' : 'Added to Starred');
     } catch (err) {
       toast.error(err.message);
