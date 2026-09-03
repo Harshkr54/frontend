@@ -10,7 +10,7 @@ export default function Trash() {
   const [confirm, setConfirm] = useState(null);
   const { data, isLoading } = useQuery({
     queryKey: ['trash'],
-    queryFn: () => trashApi.list().then((r) => r.data),
+    queryFn: () => trashApi.list(),
   });
 
   const restore = useMutation({
