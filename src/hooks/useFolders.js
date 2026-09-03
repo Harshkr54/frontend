@@ -13,7 +13,7 @@ export function useCreateFolder(folderId) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (name) =>
-      folderApi.create({ name, parentFolder: folderId && folderId !== 'root' ? folderId : null }),
+      folderApi.create({ name, parentFolderId: folderId && folderId !== 'root' ? folderId : null }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['folder-contents'] });
       qc.invalidateQueries({ queryKey: ['dashboard'] });
