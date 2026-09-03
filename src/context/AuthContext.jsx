@@ -61,17 +61,17 @@ export function AuthProvider({ children }) {
     clearSession();
   };
 
-  const setSessionFromOAuth = (accessToken, refreshToken) => {
+  const setSessionFromOAuth = useCallback((accessToken, refreshToken) => {
     persistTokens(accessToken, refreshToken);
     return bootstrap();
-  };
+  }, [bootstrap]);
 
-  const loginWithOAuthCode = async (code) => {
+  const loginWithOAuthCode = useCallback(async (code) => {
     const res = await authApi.exchangeOAuthCode(code);
     persistTokens(res.accessToken, res.refreshToken);
     setUser(res.user);
     return res.user;
-  };
+  }, []);
 
   const value = useMemo(
     () => ({

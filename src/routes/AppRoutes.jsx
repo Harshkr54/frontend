@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes, useNavigate, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
 import toast from 'react-hot-toast';
 import { LoadingSpinner } from '../components/common/ui.jsx';
@@ -31,7 +31,7 @@ function OAuthCallback() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { loginWithOAuthCode, setSessionFromOAuth } = useAuth();
-  const [exchanging, setExchanging] = useState(true);
+  const executedRef = useRef(false);
 
   useEffect(() => {
     const code = params.get('code');
@@ -39,6 +39,9 @@ function OAuthCallback() {
     const refreshToken = params.get('refreshToken');
 
     if (code) {
+      if (executedRef.current) return;
+      executedRef.current = true;
+
       loginWithOAuthCode(code)
         .then(() => {
           toast.success('Successfully logged in with Google');
@@ -47,12 +50,17 @@ function OAuthCallback() {
         .catch((err) => {
           toast.error(err.message || 'Google authentication failed');
           navigate('/login', { replace: true });
-        })
-        .finally(() => setExchanging(false));
+        });
     } else if (accessToken && refreshToken) {
+      if (executedRef.current) return;
+      executedRef.current = true;
+
       setSessionFromOAuth(accessToken, refreshToken);
       navigate('/dashboard', { replace: true });
     } else {
+      if (executedRef.current) return;
+      executedRef.current = true;
+
       toast.error('Authentication code missing');
       navigate('/login', { replace: true });
     }
