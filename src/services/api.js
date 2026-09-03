@@ -86,7 +86,10 @@ api.interceptors.response.use(
 
     const message =
       error.response?.data?.message || error.message || 'Something went wrong';
-    return Promise.reject(new Error(message));
+    const errObj = new Error(message);
+    errObj.response = error.response;
+    errObj.data = error.response?.data;
+    return Promise.reject(errObj);
   }
 );
 

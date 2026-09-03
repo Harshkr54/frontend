@@ -1,6 +1,7 @@
-import { Navigate, Outlet, Route, Routes, useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Navigate, Outlet, Route, Routes, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth.js';
+import toast from 'react-hot-toast';
 import { LoadingSpinner } from '../components/common/ui.jsx';
 import { AppShell } from '../components/layout/AppShell.jsx';
 import Login from '../pages/Login.jsx';
@@ -28,17 +29,36 @@ function ProtectedLayout() {
 
 function OAuthCallback() {
   const [params] = useSearchParams();
-  const { setSessionFromOAuth } = useAuth();
+  const navigate = useNavigate();
+  const { loginWithOAuthCode, setSessionFromOAuth } = useAuth();
+  const [exchanging, setExchanging] = useState(true);
 
   useEffect(() => {
+    const code = params.get('code');
     const accessToken = params.get('accessToken');
     const refreshToken = params.get('refreshToken');
-    if (accessToken && refreshToken) {
-      setSessionFromOAuth(accessToken, refreshToken);
-    }
-  }, [params, setSessionFromOAuth]);
 
-  return <Navigate to="/dashboard" replace />;
+    if (code) {
+      loginWithOAuthCode(code)
+        .then(() => {
+          toast.success('Successfully logged in with Google');
+          navigate('/dashboard', { replace: true });
+        })
+        .catch((err) => {
+          toast.error(err.message || 'Google authentication failed');
+          navigate('/login', { replace: true });
+        })
+        .finally(() => setExchanging(false));
+    } else if (accessToken && refreshToken) {
+      setSessionFromOAuth(accessToken, refreshToken);
+      navigate('/dashboard', { replace: true });
+    } else {
+      toast.error('Authentication code missing');
+      navigate('/login', { replace: true });
+    }
+  }, [params, loginWithOAuthCode, setSessionFromOAuth, navigate]);
+
+  return <LoadingSpinner label="Completing authentication..." />;
 }
 
 export default function AppRoutes() {

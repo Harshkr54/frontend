@@ -66,6 +66,13 @@ export function AuthProvider({ children }) {
     return bootstrap();
   };
 
+  const loginWithOAuthCode = async (code) => {
+    const res = await authApi.exchangeOAuthCode(code);
+    persistTokens(res.accessToken, res.refreshToken);
+    setUser(res.user);
+    return res.user;
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -76,6 +83,7 @@ export function AuthProvider({ children }) {
       logout,
       setUser,
       setSessionFromOAuth,
+      loginWithOAuthCode,
       refreshUser: bootstrap,
     }),
     [user, loading, bootstrap]

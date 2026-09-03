@@ -6,6 +6,7 @@ export const authApi = {
   me: () => api.get('/auth/me').then((r) => r.data),
   logout: () => api.post('/auth/logout').then((r) => r.data),
   refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }).then((r) => r.data),
+  exchangeOAuthCode: (code) => api.post('/auth/oauth/exchange', { code }).then((r) => r.data),
 };
 
 export default authApi;

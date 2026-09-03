@@ -138,6 +138,7 @@ export function AuthField({
   placeholder,
   autoComplete,
   rightSlot,
+  error,
 }) {
   return (
     <div>
@@ -153,12 +154,13 @@ export function AuthField({
           autoComplete={autoComplete}
           className={`w-full rounded-xl border-0 bg-white/90 px-4 py-3.5 text-slate-800 outline-none placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-white/60 ${
             rightSlot ? 'pr-12' : ''
-          } ${readOnly ? 'opacity-90' : ''}`}
+          } ${readOnly ? 'opacity-90' : ''} ${error ? 'ring-2 ring-red-400 bg-red-50/90' : ''}`}
         />
         {rightSlot ? (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3">{rightSlot}</div>
         ) : null}
       </div>
+      {error ? <p className="mt-1 text-xs font-semibold text-red-200">{error}</p> : null}
     </div>
   );
 }
