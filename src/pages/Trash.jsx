@@ -35,7 +35,7 @@ export default function Trash() {
   });
 
   if (isLoading) return <LoadingSpinner label="Loading trash..." />;
-  const items = data || [];
+  const items = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
 
   return (
     <div className="space-y-4">

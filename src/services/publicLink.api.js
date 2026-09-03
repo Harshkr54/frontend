@@ -24,7 +24,7 @@ export const starApi = {
 };
 
 export const trashApi = {
-  list: () => api.get('/trash'),
+  list: () => api.get('/trash').then((r) => r.data),
   restore: (id, type) => api.post(`/trash/${id}/restore`, { type }).then((r) => r.data),
   permanentDelete: (id, type) =>
     api.delete(`/trash/${id}/permanent`, { data: { type } }).then((r) => r.data),

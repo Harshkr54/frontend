@@ -95,9 +95,8 @@ export function AIFileAssistantDrawer({ open, onClose, file }) {
   const fetchConversation = async () => {
     try {
       const res = await aiApi.getConversation(fileId);
-      if (res.data?.messages) {
-        setMessages(res.data.messages);
-      }
+      const msgs = res?.messages || res.data?.messages || [];
+      setMessages(msgs);
     } catch {
       // Ignore initial history error if none exists
     }
