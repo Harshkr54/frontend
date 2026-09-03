@@ -2,16 +2,17 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   Cloud,
   HardDrive,
+  LayoutDashboard,
   Share2,
   Star,
   Trash2,
-  LayoutDashboard,
   Menu,
   X,
   User,
   LogOut,
   Search,
   Command,
+  Tag as TagIcon,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
@@ -23,6 +24,7 @@ import { userApi } from '../../services/publicLink.api.js';
 import { useDebounce } from '../../hooks/useDebounce.js';
 import { useSearch } from '../../hooks/useSearch.js';
 import { getFileIcon } from '../../utils/fileIcons.js';
+import { useTags } from '../../hooks/useTags.js';
 
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -51,6 +53,8 @@ export function AppShell({ children }) {
     queryKey: ['storage'],
     queryFn: () => userApi.storage().then((r) => r.data),
   });
+
+  const { data: userTags = [] } = useTags();
 
   // Handle outside click to close popover
   useEffect(() => {
@@ -133,6 +137,36 @@ export function AppShell({ children }) {
             )}
           </NavLink>
         ))}
+
+        {/* User Tags Section */}
+        {userTags.length > 0 && (
+          <div className="pt-4 space-y-1">
+            <p className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Tags
+            </p>
+            {userTags.map((tag) => {
+              const tagId = tag._id || tag.id;
+              const color = tag.colorHex || '#3B82F6';
+              return (
+                <NavLink
+                  key={tagId}
+                  to={`/drive?tag=${tagId}`}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `group flex items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-bold transition-all ${
+                      isActive
+                        ? 'bg-slate-200/80 text-slate-900 dark:bg-slate-800 dark:text-slate-100 shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60'
+                    }`
+                  }
+                >
+                  <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                  <span className="truncate">{tag.name}</span>
+                </NavLink>
+              );
+            })}
+          </div>
+        )}
       </nav>
 
       <div className="mt-auto space-y-3 border-t border-slate-100 bg-slate-50/40 p-4 dark:border-slate-800 dark:bg-slate-900/50">

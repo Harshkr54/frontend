@@ -18,10 +18,12 @@ import {
   FolderOpen,
   Sparkles,
   History,
+  Tag as TagIcon,
 } from 'lucide-react';
 import { formatFileSize } from '../../utils/formatFileSize.js';
 import { formatDate } from '../../utils/formatDate.js';
 import { AIFileAssistantDrawer } from '../ai/AIFileAssistantDrawer.jsx';
+import { TagBadge } from '../common/TagBadge.jsx';
 
 // Get rich custom gradient styles and icons for file types
 function getFileTypeConfig(mimeType = '', isFolder = false) {
@@ -127,7 +129,7 @@ function ContextMenu({ open, onClose, actions }) {
   );
 }
 
-export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, onShare, onStar, onPreview, onAi, onVersions, view }) {
+export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, onShare, onStar, onPreview, onAi, onVersions, onManageTags, view }) {
   const [menu, setMenu] = useState(false);
   const isFolder = type === 'folder';
   const config = getFileTypeConfig(item.mimeType, isFolder);
@@ -146,6 +148,11 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
       label: 'Version History',
       icon: <History size={14} className="text-blue-500" />,
       onClick: () => onVersions?.(item),
+    },
+    {
+      label: 'Manage Tags',
+      icon: <TagIcon size={14} className="text-purple-500" />,
+      onClick: () => onManageTags?.(item, type),
     },
     { label: 'Rename', icon: <Pencil size={14} />, onClick: () => onRename?.(item, type) },
     { label: 'Share', icon: <Share2 size={14} />, onClick: () => onShare?.(item, type) },
@@ -169,11 +176,14 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
             <Icon size={18} />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100 hover:text-teal-600 dark:hover:text-teal-400 cursor-pointer" onClick={() => onOpen?.(item, type)}>
                 {item.name}
               </span>
               {isStarred && <Star size={14} className="fill-amber-400 text-amber-400 shrink-0" />}
+              {(item.tags || []).map((t) => (
+                <TagBadge key={t._id || t.id} tag={t} />
+              ))}
             </div>
           </div>
         </div>
@@ -296,6 +306,15 @@ export function FileCard({ item, type, onOpen, onDownload, onRename, onDelete, o
         <h4 className="truncate text-sm font-bold text-slate-800 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition">
           {item.name}
         </h4>
+        
+        {/* Render Tag Chips in Grid */}
+        {(item.tags || []).length > 0 && (
+          <div className="mt-1 flex items-center gap-1 flex-wrap">
+            {item.tags.map((t) => (
+              <TagBadge key={t._id || t.id} tag={t} />
+            ))}
+          </div>
+        )}
         <div className="mt-1 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
           <span>{isFolder ? 'Folder' : formatFileSize(item.size)}</span>
           <span>{formatDate(item.updatedAt)}</span>
@@ -333,6 +352,7 @@ export function FileExplorer({
   onStar,
   onPreview,
   onVersions,
+  onManageTags,
 }) {
   const [aiFile, setAiFile] = useState(null);
   const hasFolders = folders.length > 0;
@@ -363,6 +383,7 @@ export function FileExplorer({
                   onDelete={onDelete}
                   onShare={onShare}
                   onStar={onStar}
+                  onManageTags={onManageTags}
                 />
               ))}
             </div>
@@ -385,6 +406,7 @@ export function FileExplorer({
                   onStar={onStar}
                   onPreview={onPreview}
                   onVersions={onVersions}
+                  onManageTags={onManageTags}
                   onAi={(fileItem) => setAiFile(fileItem)}
                 />
               ))}
@@ -413,6 +435,7 @@ export function FileExplorer({
                     onDelete={onDelete}
                     onShare={onShare}
                     onStar={onStar}
+                    onManageTags={onManageTags}
                   />
                 ))}
               </div>
@@ -442,6 +465,7 @@ export function FileExplorer({
                     onStar={onStar}
                     onPreview={onPreview}
                     onVersions={onVersions}
+                    onManageTags={onManageTags}
                     onAi={(fileItem) => setAiFile(fileItem)}
                   />
                 ))}

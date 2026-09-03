@@ -24,10 +24,12 @@ import { CreateFolderModal, RenameModal } from '../components/folders/FolderModa
 import { ShareModal } from '../components/sharing/ShareModal.jsx';
 import { FilePreviewModal } from '../components/files/FilePreviewModal.jsx';
 import { VersionHistoryModal } from '../components/files/VersionHistoryModal.jsx';
+import { ManageTagsModal } from '../components/tags/ManageTagsModal.jsx';
 import { ConfirmModal, EmptyState, SkeletonGrid } from '../components/common/ui.jsx';
 import { useFolderContents, useCreateFolder, useRenameFolder, useDeleteFolder } from '../hooks/useFolders.js';
 import { useDeleteFile, useDownloadFile, useRenameFile } from '../hooks/useFiles.js';
 import { useUpload } from '../hooks/useUpload.js';
+import { useTagResources } from '../hooks/useTags.js';
 import { fileApi } from '../services/file.api.js';
 import { starApi } from '../services/publicLink.api.js';
 import { loadPreviewObjectUrl, revokePreviewObjectUrl } from '../utils/filePreview.js';
@@ -43,6 +45,7 @@ const FILTERS = [
 
 export default function MyDrive() {
   const [params] = useSearchParams();
+  const tagIdParam = params.get('tag');
   const navigate = useNavigate();
   const [folderId, setFolderId] = useState(null);
   const [view, setView] = useState('grid');
@@ -56,8 +59,11 @@ export default function MyDrive() {
   const [shareTarget, setShareTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [versionTarget, setVersionTarget] = useState(null);
+  const [tagTarget, setTagTarget] = useState(null);
   const [preview, setPreview] = useState({ file: null, url: null });
   const qc = useQueryClient();
+
+  const tagResources = useTagResources(tagIdParam);
 
   const contents = useFolderContents(folderId || 'root');
   const createFolder = useCreateFolder(folderId);
@@ -113,8 +119,9 @@ export default function MyDrive() {
     }
   };
 
-  const rawFolders = contents.data?.folders || [];
-  const rawFiles = contents.data?.files || [];
+  const rawFolders = tagIdParam ? (tagResources.data?.folders || []) : (contents.data?.folders || []);
+  const rawFiles = tagIdParam ? (tagResources.data?.files || []) : (contents.data?.files || []);
+  const activeTagName = tagResources.data?.tag?.name;
 
   // Filter & Sort Logic
   const { filteredFolders, filteredFiles } = useMemo(() => {
@@ -167,19 +174,19 @@ export default function MyDrive() {
     return { filteredFolders: fList, filteredFiles: fileList };
   }, [rawFolders, rawFiles, activeFilter, sortBy, sortOrder]);
 
-  if (contents.isLoading) return <SkeletonGrid />;
+  if (contents.isLoading || (tagIdParam && tagResources.isLoading)) return <SkeletonGrid />;
 
   const isEmpty = rawFolders.length === 0 && rawFiles.length === 0;
   const isFilteredEmpty = !isEmpty && filteredFolders.length === 0 && filteredFiles.length === 0;
 
   return (
-    <div className="space-y-5 animate-fade-up">
-      {/* Header Bar */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-4 dark:border-slate-700/80">
+    <div className="space-y-6 animate-fade-up">
+      {/* Top Header Controls */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-3">
             <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              My Drive
+              {tagIdParam ? `Tag: ${activeTagName || 'Filtered Resources'}` : 'My Drive'}
             </h1>
             <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 ring-1 ring-blue-600/20 dark:bg-blue-950/50 dark:text-blue-400 dark:ring-blue-500/30">
               {rawFolders.length + rawFiles.length} items
@@ -361,6 +368,7 @@ export default function MyDrive() {
           onStar={onStar}
           onPreview={handlePreview}
           onVersions={(file) => setVersionTarget(file)}
+          onManageTags={(item, type) => setTagTarget({ item, type })}
         />
       )}
 
@@ -421,6 +429,12 @@ export default function MyDrive() {
         onClose={() => setVersionTarget(null)}
         file={versionTarget}
         onVersionRestored={() => qc.invalidateQueries({ queryKey: ['folders'] })}
+      />
+
+      <ManageTagsModal
+        open={Boolean(tagTarget)}
+        onClose={() => setTagTarget(null)}
+        target={tagTarget}
       />
     </div>
   );
