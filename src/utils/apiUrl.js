@@ -13,10 +13,6 @@ export function getApiBaseUrl() {
   return String(raw).replace(/\/$/, '');
 }
 
-/**
- * Resolve a backend-relative path (e.g. /api/files/...) for fetch/download.
- * Absolute http(s) URLs are returned unchanged (e.g. S3 signed URLs).
- */
 export function resolveApiUrl(path) {
   if (!path) return path;
   if (/^https?:\/\//i.test(path)) return path;
@@ -27,4 +23,16 @@ export function resolveApiUrl(path) {
   return `${origin}${normalized}`;
 }
 
-export default { getApiBaseUrl, resolveApiUrl };
+export function getBackendOrigin() {
+  if (import.meta.env.PROD) {
+    return 'https://java-backend-production-54bf.up.railway.app';
+  }
+  const raw = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  return String(raw).replace(/\/api$/, '').replace(/\/$/, '');
+}
+
+export function getGoogleOAuthUrl() {
+  return `${getBackendOrigin()}/oauth2/authorization/google`;
+}
+
+export default { getApiBaseUrl, resolveApiUrl, getBackendOrigin, getGoogleOAuthUrl };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { Eye, EyeOff, Check, X } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth.js';
-import { getApiBaseUrl } from '../utils/apiUrl.js';
+import { getApiBaseUrl, getGoogleOAuthUrl } from '../utils/apiUrl.js';
 import toast from 'react-hot-toast';
 import AuthLayout, { AuthField, AuthPrimaryButton } from '../components/auth/AuthLayout.jsx';
 
@@ -26,9 +26,7 @@ export default function Register() {
   }
 
   const handleGoogleLogin = () => {
-    const apiBase = getApiBaseUrl();
-    const backendOrigin = apiBase.endsWith('/api') ? apiBase.slice(0, -4) : apiBase;
-    window.location.href = `${backendOrigin}/oauth2/authorization/google`;
+    window.location.href = getGoogleOAuthUrl();
   };
 
   const passwordChecks = {
