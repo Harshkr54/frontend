@@ -38,14 +38,6 @@ export default function Login() {
       compactOnMobile
       title="Welcome back"
       subtitle="Sign in to your account to continue"
-      footerLink={
-        <p className="text-center text-sm text-white/85">
-          No account?{' '}
-          <Link to="/register" className="font-semibold text-white underline underline-offset-2 hover:text-white">
-            Create one
-          </Link>
-        </p>
-      }
     >
       <form onSubmit={onSubmit} className="space-y-5">
         <AuthField
@@ -114,6 +106,16 @@ export default function Login() {
             </svg>
             Continue with Google
           </button>
+
+          <p className="pt-2 text-center text-xs text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+            Don't have an account?{' '}
+            <Link
+              to="/register"
+              className="font-semibold text-[#3157d5] underline-offset-2 hover:text-[#2649bd] hover:underline focus:outline-none focus:ring-2 focus:ring-[#3157d5]/20 rounded-xs dark:text-[#5b7cff] dark:hover:text-[#7895ff]"
+            >
+              Create an account
+            </Link>
+          </p>
         </div>
       </form>
     </AuthLayout>
